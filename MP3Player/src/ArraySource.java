@@ -5,7 +5,7 @@ import java.util.Iterator;
 public class ArraySource implements Iterable<String> {
    private final List<String> list ;
    
-   publicArraySource(String[] args) {
+   public ArraySource(String[] args) {
       list = asList(args) ;
    }
    

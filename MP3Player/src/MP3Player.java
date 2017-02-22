@@ -5,13 +5,18 @@
  */
 
 import edu.rit.se.swen383.audio.AudioSource ;
+import java.util.*;
 
 public class MP3Player {
+    
     /*
      * Driver with a simple command language to control the
      * audio playback.
      */
     public static void main(String args[]) {
+        
+            Scanner scan = new Scanner (System.in);
+
         /*
          * We need at least one file to play.
          */
@@ -51,7 +56,7 @@ public class MP3Player {
         
         char command = ' ' ;
         while( command != 'q' ) {
-            String s = System.console().readLine() + " " ;
+            String s = scan.nextLine() + " " ;
             command = s.charAt(0) ;
 
             if( command == '+' ) {

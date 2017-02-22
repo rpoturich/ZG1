@@ -5,9 +5,10 @@ import java.io.Reader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.util.Iterator;
 
 public class FileSource implements Iterable<String> {
-   private List<String> list = newArrayList<String>() ;
+   private List<String> list = new ArrayList<String>() ;
    
    public FileSource(String fileName) {
       loadFromFile(fileName) ;
@@ -22,7 +23,7 @@ public class FileSource implements Iterable<String> {
       try {
          InputStream fis= new FileInputStream(fileName) ;
          Reader isr= new InputStreamReader(fis) ;
-         BufferedReaderreader = new BufferedReader(isr) ;
+         BufferedReader reader = new BufferedReader(isr) ;
          String line = reader.readLine() ;
          
          while( line != null ) {

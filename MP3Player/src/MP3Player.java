@@ -57,9 +57,12 @@ public class MP3Player {
         char command = ' ' ;
         while( command != 'q' ) {
             String s = scan.nextLine() + " " ;
-            command = s.charAt(0) ;
-
-            if( command == '+' ) {
+            s.trim();
+            
+            String arguments[] = s.split("\\s+");
+            String commands = arguments[0];
+            
+            if( commands.equals("+") || commands.equals("next") ) {
                 int nextIndex = pl.getSourceIndex() + 1 ;
                 /*
                  * Don't move beyond the last play list element.
@@ -68,7 +71,7 @@ public class MP3Player {
                     pl.play(nextIndex) ;
                 }
             }
-            if( command == '-' ) {
+            else if( commands.equals("-") || commands.equals("prevoius")) {
                 int prevIndex = pl.getSourceIndex() - 1 ;
                 /*
                  * Don't move before the first play list element.
@@ -77,10 +80,10 @@ public class MP3Player {
                     pl.play(prevIndex) ;
                 }
             }
-            if( command == '@' ) {
+            else if( commands.equals("@")  ) {
                 pl.play(pl.getSourceIndex()) ;
             }
-            if( command == 'h'  || command == 'H' || command == '?') {
+            else if( commands.equals("h")  || commands.equals("H") || commands.equals("?")) {
                 println("+ = Play the file after the current one.");
                 println("- = Play the file before the current one.");
                 println("@ = Replay the current file.") ;
@@ -95,7 +98,7 @@ public class MP3Player {
                 println("s = Print number of playlist entries.") ;
                 println("q = Quit the player.") ;
             }
-            if( command == 'i') {
+            else if( commands.equals("i") ) {
                 AudioSource as = null ;
                 int i = -1 ;
 
@@ -126,7 +129,7 @@ public class MP3Player {
                     System.out.printf ("Duration: %d:%02d\n", mins, secs) ;
                 }
             }
-            if( command == 'p' ) {
+            else if( commands.equals("p") ) {
                 int i = 0 ;
                 try {
                     String iv = s.substring(1).trim() ;
@@ -134,27 +137,34 @@ public class MP3Player {
                 } catch(Exception e) {i = 0 ; }
                 pl.play(i) ;
             }
-            if( command == 'P' ) {
+            else if( commands.equals("P") ) {
                 pl.pause() ;
             }
-            if( command == 'R' ) {
+            else if( commands.equals("R") ) {
                 pl.resume() ;
             }
-            if( command == 's' ) {
+            else if( commands.equals("s") ) {
                 println("Playlist size: " + pl.size()) ;
             }
-            if( command == 't' ) {
+            else if( commands.equals("t") ) {
                 int position = pl.getPosition() / 1000 ; // remove milliseconds
                 int secs = position % 60 ;
                 int mins = position / 60 ;
                 System.out.printf("Source position: %d:%02d\n", mins, secs) ;
+            }
+            else if(commands.equals("q")){
+                
+                System.exit(0);
+                
             }
         }
         /*
          * System.exit(0) rather than return as there is another thread
          * running and a return would only terminate the main thread.
          */
-        System.exit(0) ;
+      
+       
+       
     }
 
     private static void println(String s) {

@@ -55,7 +55,8 @@ public class MP3Player {
         
         
         char command = ' ' ;
-        while( command != 'q' ) {
+        while( true ) {
+            System.exit(0);
             String s = scan.nextLine() + " " ;
             s.trim();
             
@@ -152,19 +153,13 @@ public class MP3Player {
                 int mins = position / 60 ;
                 System.out.printf("Source position: %d:%02d\n", mins, secs) ;
             }
-            else if(commands.equals("q")){
-                
-                System.exit(0);
-                
-            }
         }
         /*
          * System.exit(0) rather than return as there is another thread
          * running and a return would only terminate the main thread.
          */
-      
-       
-       
+        
+        System.exit(0) ;
     }
 
     private static void println(String s) {

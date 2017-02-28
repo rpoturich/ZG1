@@ -59,6 +59,22 @@ public class PlayList implements Observer {
         player = AudioPlayer.getPlayer() ;
         player.addObserver(this) ;
     }
+    
+    public PlayList(Iterable<String> files){
+        for(String s: files) {
+            AudioSource source ;
+            try {
+                source = new AudioSource(s) ;
+                sources.add(source) ;
+            } catch (AudioSourceException ex) {
+                System.out.print("File <" + s + "> excluded ") ;
+                System.out.println(ex) ;
+            }
+        }
+        player = AudioPlayer.getPlayer() ;
+        player.addObserver(this) ;
+    }
+
 
     /**
      * Return the size of the play list (the number of

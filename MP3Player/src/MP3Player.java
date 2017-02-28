@@ -15,7 +15,7 @@ public class MP3Player {
      */
     public static void main(String args[]) {
         
-            Scanner scan = new Scanner (System.in);
+            Scanner scan = new Scanner(System.in);
 
         /*
          * We need at least one file to play.
@@ -159,7 +159,7 @@ public class MP3Player {
          * running and a return would only terminate the main thread.
          */
         
-        System.exit(0) ;
+        //System.exit(0) ;
     }
 
     private static void println(String s) {

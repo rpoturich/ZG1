@@ -10,7 +10,7 @@
  */
 public class PlayPreviousCommand implements Command{
 
-    PlayList playPrevious;
+    private PlayList playPrevious;
     
     public PlayPreviousCommand(PlayList playPrevious){
      
@@ -20,7 +20,7 @@ public class PlayPreviousCommand implements Command{
 
     
     @Override
-    public void execute(String[] args) {
+    public void execute() {
         
         int prevIndex = playPrevious.getSourceIndex() - 1 ;
 

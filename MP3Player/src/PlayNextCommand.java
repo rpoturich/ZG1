@@ -10,7 +10,7 @@
  */
 public class PlayNextCommand implements Command {
  
-    PlayList playNext;
+    private PlayList playNext;
     
     public PlayNextCommand(PlayList playNext){
         
@@ -19,7 +19,7 @@ public class PlayNextCommand implements Command {
     }
 
     
-    public void execute(String [] args){
+    public void execute(){
         
         int nextIndex = playNext.getSourceIndex() + 1 ;
         

@@ -48,11 +48,14 @@ public class MP3Player {
         }
 
         PlayList pl = new PlayList(mp3names);
+        
         Command cmd;
+        Map<String, Command> commandTable = buildMap(pl);
+        
 
-        char command = ' ';
+        String command = "";
         while (true) {
-            System.exit(0);
+            //System.exit(0);
             String s = scan.nextLine() + " ";
             s.trim();
 
@@ -64,53 +67,21 @@ public class MP3Player {
                 cmd = new PlayNextCommand(pl);
 
             } else if (commands.equals("-") || commands.equals("prevoius")) {
+                
                 cmd = new PlayPreviousCommand(pl);
+                
             } else if (commands.equals("@")) {
-                pl.play(pl.getSourceIndex());
+                
+                cmd = new AgainCommand(pl); 
+                
             } else if (commands.equals("h") || commands.equals("H") || commands.equals("?")) {
-                println("+ = Play the file after the current one.");
-                println("- = Play the file before the current one.");
-                println("@ = Replay the current file.");
-                println("h or H or ? = Print this help screen.");
-                println("i [n] = Print information on file #'n'");
-                println("        (or the current file if 'n' is omitted).");
-                println("p [n] = Terminate any playback and start playing");
-                println("        AudioSource #'n' (default 0).");
-                println("P = Pause playback if any.");
-                println("R = Resume playback if any.");
-                println("t = Print the playback position in seconds.");
-                println("s = Print number of playlist entries.");
-                println("q = Quit the player.");
+                
+                cmd = new HelpCommand(pl);
+                
             } else if (commands.equals("i")) {
-                AudioSource as = null;
-                int i = -1;
-
-                try {
-                    String iv = s.substring(1).trim();
-                    i = Integer.parseInt(iv);
-                } catch (Exception e) {
-                    i = -1; // no integer argument.
-                };
-                if (i < 0) {
-                    i = pl.getSourceIndex();
-                }
-                as = pl.getSource(i);
-
-                if (i == (-1)) {
-                    println("Player is idle");
-                } else if (as != null) {
-                    int duration = as.getDuration();
-                    int secs = duration % 60;
-                    int mins = duration / 60;
-
-                    println("Index:    " + i);
-                    println("File:     " + as.getFileName());
-                    println("Title:    " + as.getTitle());
-                    println("Artist:   " + as.getArtist());
-                    println("Album:    " + as.getAlbum());
-                    println("Genre:    " + as.getGenre());
-                    System.out.printf("Duration: %d:%02d\n", mins, secs);
-                }
+                
+                cmd = new InfoCommand(pl, commands);
+                
             } else if (commands.equals("p")) {
                 int i = 0;
                 try {
@@ -145,7 +116,7 @@ public class MP3Player {
         System.out.println(s);
     }
 
-    private static Map<String, Command> buildMap() {
+    private static Map<String, Command> buildMap(PlayList playlist) {
             Command c;
             Map<String, Command> result = new HashMap<String, Command>();
 
@@ -153,43 +124,43 @@ public class MP3Player {
             result.put("q", c);
             result.put("quit", c);
 
-            c = new PlayNextCommand();
+            c = new PlayNextCommand(playlist);
             result.put("+", c);
             result.put("next", c);
 
-            c = new PlayPreviousCommand();
+            c = new PlayPreviousCommand(playlist);
             result.put("-", c);
             result.put("prev", c);
 
-            c = new AgainCommand();
+            c = new AgainCommand(playlist);
             result.put("@", c);
             result.put("again", c);
             
-            c = new HelpCommand();
+            c = new HelpCommand(playlist);
             result.put("h", c);
             result.put("help", c);
 
-            c = new InfoCommand();
+            c = new InfoCommand(playlist);
             result.put("i", c);
             result.put("info", c);
 
-            c = new PlayCommand();
+            c = new PlayCommand(playlist);
             result.put("p", c);
             result.put("play", c);
 
-            c = new PauseCommand();
+            c = new PauseCommand(playlist);
             result.put("P", c);
             result.put("pause", c);
 
-            c = new ResumeCommand();
+            c = new ResumeCommand(playlist);
             result.put("R", c);
             result.put("resume", c);
 
-            c = new GetSizeCommand();
+            c = new GetSizeCommand(playlist);
             result.put("s", c);
             result.put("size", c);
 
-            c = new GetTimeCommand();
+            c = new GetTimeCommand(playlist);
             result.put("t", c);
             result.put("time", c);
 

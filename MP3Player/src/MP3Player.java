@@ -52,6 +52,7 @@ public class MP3Player {
         }
         
         PlayList pl = new PlayList(mp3names);
+        Command cmd;
         
         
         char command = ' ' ;
@@ -64,22 +65,12 @@ public class MP3Player {
             String commands = arguments[0];
             
             if( commands.equals("+") || commands.equals("next") ) {
-                int nextIndex = pl.getSourceIndex() + 1 ;
-                /*
-                 * Don't move beyond the last play list element.
-                 */
-                if( nextIndex < pl.size() ) {
-                    pl.play(nextIndex) ;
-                }
+                
+                cmd = new PlayNextCommand(pl);
+                
             }
             else if( commands.equals("-") || commands.equals("prevoius")) {
-                int prevIndex = pl.getSourceIndex() - 1 ;
-                /*
-                 * Don't move before the first play list element.
-                 */
-                if( prevIndex >= 0 ) {
-                    pl.play(prevIndex) ;
-                }
+                cmd = new PlayPreviousCommand(pl);
             }
             else if( commands.equals("@")  ) {
                 pl.play(pl.getSourceIndex()) ;

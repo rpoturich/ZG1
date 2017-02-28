@@ -9,6 +9,7 @@ import java.util.*;
 
 public class MP3Player {
 
+    static String playMode = "";
     /*
      * Driver with a simple command language to control the
      * audio playback.
@@ -16,7 +17,7 @@ public class MP3Player {
     public static void main(String args[]) {
 
         Scanner scan = new Scanner(System.in);
-
+        
         /*
          * We need at least one file to play.
          */
@@ -103,6 +104,18 @@ public class MP3Player {
                 int mins = position / 60;
                 System.out.printf("Source position: %d:%02d\n", mins, secs);
             }
+            else if(commands.equals("normal") || commands.equals("random") || commands.equals("repeat")){
+            
+                playMode = commands;
+                pl.setPlayMode(playMode);
+                System.out.println(playMode);
+                
+                
+            
+            }
+                
+            
+            
         }
         /*
          * System.exit(0) rather than return as there is another thread

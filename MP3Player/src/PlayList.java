@@ -11,7 +11,7 @@
 import java.util.Observer;
 import java.util.Observable;
 import java.util.ArrayList;
-
+import java.util.Random;
 /*
  * SWEN383 classes for managing and playing audio files.
  */
@@ -36,6 +36,8 @@ public class PlayList implements Observer {
      * A reference to the (one and only) <code>AudioPlayer</code> in the system.
      */
     private final AudioPlayer player;
+    
+    String playMode = "normal";
 
     /**
      * Create a new play list from an array of <code>String</code>s naming MP3
@@ -168,23 +170,50 @@ public class PlayList implements Observer {
          * Advance to the next AudioSource unless we
          * just played the last one.
          */
-        if (nextSong.equalsIgnoreCase("next")) {
-            int nextIndex = currentIndex + 1;
-            if (nextIndex < size()) {
-                playAudioSource(nextIndex);
-            } else {
-                currentIndex = (-1);
+        int nextInt;
+        
+        if(playMode.equals("normal") || playMode.equals("")){
+            
+            nextInt = currentIndex +1;
+            if(nextInt < size()){
+                
+                playAudioSource(nextInt);
+                
             }
-        } else if (nextSong.equalsIgnoreCase("random")) {
-            int nextIndex = (int) (Math.random() * (size() - 0)) + 0;
-            if (nextIndex < size()) {
-                playAudioSource(nextIndex);
-            } else {
-                currentIndex = (-1);
+            
+            else{
+                currentIndex = -1;
             }
-        } else if (nextSong.equalsIgnoreCase("repeat")) {
-             playAudioSource(currentIndex);
+            
         }
+        else if(playMode.equals("random")) {
+            
+            
+            Random r = new Random();
+            nextInt = r.nextInt(size());
+            playAudioSource(nextInt);
+            
+        }
+        
+        else if(playMode.equals("repeat")){
+            
+            nextInt = currentIndex +1;
+            if(nextInt < size()){
+                
+                playAudioSource(nextInt);
+                
+            }
+            
+            else{
+                playAudioSource(0);
+            }
+            
+            
+        }
+            
+            
+            
+            
     }
 
     /**
@@ -219,5 +248,12 @@ public class PlayList implements Observer {
             currentIndex = (-1);
             System.out.println("PlayList.playAudioSource: " + ex);
         };
+    }
+    
+    // setting mode for playing 
+    public void setPlayMode(String playMode){
+        
+        this.playMode = playMode;
+        
     }
 }

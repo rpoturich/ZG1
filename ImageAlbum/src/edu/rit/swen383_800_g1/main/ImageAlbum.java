@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imagealbum;
+package edu.rit.swen383_800_g1.main;
 
 /**
  *

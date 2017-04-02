@@ -61,60 +61,12 @@ public class MP3Player {
             s.trim();
 
             String arguments[] = s.split("\\s+");
-            String commands = arguments[0];
+            command = arguments[0];
 
-            if (commands.equals("+") || commands.equals("next")) {
-
-                cmd = new PlayNextCommand(pl);
-
-            } else if (commands.equals("-") || commands.equals("prevoius")) {
-                
-                cmd = new PlayPreviousCommand(pl);
-                
-            } else if (commands.equals("@")) {
-                
-                cmd = new AgainCommand(pl); 
-                
-            } else if (commands.equals("h") || commands.equals("H") || commands.equals("?")) {
-                
-                cmd = new HelpCommand(pl);
-                
-            } else if (commands.equals("i")) {
-                
-                cmd = new InfoCommand(pl, commands);
-                
-            } else if (commands.equals("p")) {
-                int i = 0;
-                try {
-                    String iv = s.substring(1).trim();
-                    i = Integer.parseInt(iv);
-                } catch (Exception e) {
-                    i = 0;
-                }
-                pl.play(i);
-            } else if (commands.equals("P")) {
-                pl.pause();
-            } else if (commands.equals("R")) {
-                pl.resume();
-            } else if (commands.equals("s")) {
-                println("Playlist size: " + pl.size());
-            } else if (commands.equals("t")) {
-                int position = pl.getPosition() / 1000; // remove milliseconds
-                int secs = position % 60;
-                int mins = position / 60;
-                System.out.printf("Source position: %d:%02d\n", mins, secs);
+            cmd = commandTable.get(command);
+            if(cmd != null){
+                cmd.execute(arguments);
             }
-            else if(commands.equals("normal") || commands.equals("random") || commands.equals("repeat")){
-            
-                playMode = commands;
-                pl.setPlayMode(playMode);
-                System.out.println(playMode);
-                
-                
-            
-            }
-                
-            
             
         }
         /*
@@ -128,6 +80,7 @@ public class MP3Player {
     private static void println(String s) {
         System.out.println(s);
     }
+
 
     private static Map<String, Command> buildMap(PlayList playlist) {
             Command c;
@@ -169,17 +122,18 @@ public class MP3Player {
             result.put("R", c);
             result.put("resume", c);
 
+            /*
             c = new GetSizeCommand(playlist);
             result.put("s", c);
             result.put("size", c);
 
             c = new GetTimeCommand(playlist);
             result.put("t", c);
-            result.put("time", c);
+            result.put("time", c);*/
+            
+            return result;
 
         }
     }
 
-}
 
-}

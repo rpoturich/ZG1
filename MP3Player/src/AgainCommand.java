@@ -12,7 +12,7 @@ public class AgainCommand implements Command{
         
     }
     
-    public void execute(){
+    public void execute(String[] arguments){
         
         playNext.play(playNext.getSourceIndex());
         

@@ -1,4 +1,6 @@
 
+
+
 import edu.rit.se.swen383.audio.AudioSource;
 
 /**
@@ -10,14 +12,14 @@ public class InfoCommand implements Command {
     private PlayList pl;
     private String s;
     
-    public InfoCommand(PlayList pl, String s) {
+    public InfoCommand(PlayList pl) {
         
         this.pl = pl;
         this.s = s;
         
     }
 
-    public void execute(){
+    public void execute(String[] arguments){
         AudioSource as = null;
         int i = -1;
 

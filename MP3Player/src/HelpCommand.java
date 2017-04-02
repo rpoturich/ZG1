@@ -1,3 +1,5 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,7 +18,7 @@ public class HelpCommand implements Command {
         this.pl = pl;
     }
 
-    public void execute() {
+    public void execute(String[] arguments) {
         System.out.println("+ = Play the file after the current one.");
         System.out.println("- = Play the file before the current one.");
         System.out.println("@ = Replay the current file.");

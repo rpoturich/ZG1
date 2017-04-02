@@ -1,3 +1,5 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,6 +12,6 @@
  */
  public interface Command {
         
-     public void execute();
+     public void execute(String[] arguments);
      
 }

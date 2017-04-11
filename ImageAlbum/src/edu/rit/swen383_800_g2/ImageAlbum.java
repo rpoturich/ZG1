@@ -26,9 +26,9 @@ public class ImageAlbum extends JFrame{
     
     public ImageAlbum(){
         
+        //Initial set up
         setTitle("G2 Image Album");
-        setSize(500, 500);
-        
+        setSize(800, 800);
         
         JPanel menu = new JPanel();
         
@@ -36,6 +36,8 @@ public class ImageAlbum extends JFrame{
         JFrame picFrame = new JFrame();
         picFrame.setPreferredSize(new Dimension(300, 300));
         
+        
+        //South Panel and Buttons
         JPanel southPanel = new JPanel(new FlowLayout());
         
         JButton button = new JButton("NEXT");
@@ -47,6 +49,8 @@ public class ImageAlbum extends JFrame{
         add(mainPanel, BorderLayout.CENTER);
         add(southPanel, BorderLayout.SOUTH);
         
+        
+        //Menu bar
         JMenuBar menuBar = new JMenuBar();
         
         JMenu menuView = new JMenu("View");
@@ -100,9 +104,8 @@ public class ImageAlbum extends JFrame{
 
             }
             
-            
-            
         });
+        
         itemExit.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -118,8 +121,6 @@ public class ImageAlbum extends JFrame{
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
-        
         
         
     }

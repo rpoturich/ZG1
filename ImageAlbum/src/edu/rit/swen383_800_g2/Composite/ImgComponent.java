@@ -10,5 +10,7 @@ package edu.rit.swen383_800_g2.Composite;
 public interface ImgComponent {
     
     public void list();
+    public void setLabel(String label);
+    public String getLabel();
     
 }

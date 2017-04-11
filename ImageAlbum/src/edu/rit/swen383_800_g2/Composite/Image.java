@@ -24,12 +24,14 @@ public class Image implements ImgComponent{
 
     }
 
+    @Override
     public void setLabel(String label){
         
         this.label = label;
         
     }
     
+    @Override
     public String getLabel(){
         
         return label;

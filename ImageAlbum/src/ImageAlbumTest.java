@@ -64,7 +64,7 @@ public class ImageAlbumTest {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(image, 0, 0, (int) (image.getWidth() * 0.1), (int) (image.getHeight() * 0.1), null);
+                g.drawImage(image, 0, 0, (int) (image.getWidth() * 0.3), (int) (image.getHeight() * 0.3), null);
             }
         };
 
@@ -138,7 +138,7 @@ public class ImageAlbumTest {
         System.out.println(image);
 
         myFrame.setLocationRelativeTo(null);
-        myFrame.setSize(200, 200);
+        myFrame.setSize(500, 500);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.setVisible(true);
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Album implements ImgComponent {
 
-    private String label;
+    private ArrayList<String> labels;
     private File f;
     private ArrayList<Image> images = new ArrayList<>();
     
@@ -22,15 +22,22 @@ public class Album implements ImgComponent {
         
     }
     
-    public void setLabel(String label){
+    @Override
+    public void addLabel(String label){
         
-        this.label = label;
+        labels.add(label);
         
     }
     
-    public String getLabel(){
+    @Override
+    public String getLabel(int index){
         
-        return label;
+        return labels.get(index);
+    }
+    
+    @Override
+    public ArrayList<String> getLabels(){
+        return labels;
     }
     
     public void list(){

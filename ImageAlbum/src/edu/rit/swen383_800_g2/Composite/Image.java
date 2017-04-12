@@ -6,11 +6,12 @@
 package edu.rit.swen383_800_g2.Composite;
 
 import java.io.File;
+import java.util.ArrayList;
 
 
 public class Image implements ImgComponent{
     
-    private String label;
+    private ArrayList<String> labels;
     private File f;
     
     public Image(String label){
@@ -25,17 +26,22 @@ public class Image implements ImgComponent{
     }
 
     @Override
-    public void setLabel(String label){
+    public void addLabel(String label){
         
-        this.label = label;
+        labels.add(label);
         
     }
     
     @Override
-    public String getLabel(){
+    public String getLabel(int index){
         
-        return label;
+        return labels.get(index);
         
+    }
+    
+    @Override
+    public ArrayList<String> getLabels(){
+        return labels;
     }
     
     

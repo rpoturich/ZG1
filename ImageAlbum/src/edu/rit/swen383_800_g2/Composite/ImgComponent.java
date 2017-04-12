@@ -5,12 +5,14 @@
  */
 package edu.rit.swen383_800_g2.Composite;
 
+import java.util.ArrayList;
+
 
 
 public interface ImgComponent {
     
     public void list();
-    public void setLabel(String label);
-    public String getLabel();
-    
+    public void addLabel(String label);
+    public String getLabel(int index);
+    public ArrayList<String> getLabels();
 }

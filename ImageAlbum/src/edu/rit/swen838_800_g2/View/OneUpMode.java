@@ -5,13 +5,17 @@
  */
 package edu.rit.swen838_800_g2.View;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author rachelpoturich
  */
 public class OneUpMode extends ViewMode{
     
-    
+    public OneUpMode(){
+        
+    }
     
     @Override
     public void loadImages(){}

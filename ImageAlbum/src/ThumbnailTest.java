@@ -1,4 +1,3 @@
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -6,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /*
@@ -36,8 +38,8 @@ public class ThumbnailTest {
 
     BufferedImage image;
     int currentImg = 0;
-    
-    JPanel centerPanel = new JPanel(new GridLayout(4,4));
+
+    JPanel centerPanel = new JPanel(new GridLayout(4, 4));
 
     /**
      * @param args the command line arguments
@@ -65,26 +67,44 @@ public class ThumbnailTest {
         }
 
         JFrame myFrame = new JFrame("Thumbnails");
+
         
-        /*
-        centerPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(image.getScaledInstance(100, 100, Image.SCALE_SMOOTH), 0, 0, null);
-            }
-        };*/
-
-
         try {
-            
-            for(int i = 0; i < files.size(); i++){
+
+            for (int i = 0; i < files.size(); i++) {
                 Image im = ImageIO.read(new File(imagePath.get(i)));
                 im = im.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
                 ImageIcon icon = new ImageIcon(im);
                 JLabel label = new JLabel();
                 label.setIcon(icon);
                 centerPanel.add(label);
+                
+                
+                label.addMouseListener(new MouseListener(){
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        JOptionPane jp = new JOptionPane();
+                        jp.showMessageDialog(null, "Icon " + label.getIcon() + " pressed.");
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                    }
+                });
+                
             }
         } catch (IOException e) {
             // TODO Auto-generated catch block

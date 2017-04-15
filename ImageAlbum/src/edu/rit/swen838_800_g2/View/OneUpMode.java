@@ -5,7 +5,7 @@
  */
 package edu.rit.swen838_800_g2.View;
 
-import javax.swing.JPanel;
+import edu.rit.swen838_800_g2.View.Frames.oneFrame;
 
 /**
  *
@@ -15,6 +15,8 @@ public class OneUpMode extends ViewMode{
     
     public OneUpMode(){
         
+        oneFrame on = new oneFrame();
+         on.setVisible(true);
     }
     
     @Override

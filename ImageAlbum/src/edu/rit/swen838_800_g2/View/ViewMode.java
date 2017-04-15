@@ -8,19 +8,11 @@ import javax.swing.JPanel;
  *
  * @author rachelpoturich
  */
-public abstract class ViewMode extends JFrame{
+public abstract class ViewMode{
     
-    protected JPanel mainPanel;
+   
     
     public ViewMode(){
-    
-        setTitle("Image Album");
-        setSize(800, 800);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        add(mainPanel);
-        setVisible(true);
     
     }
     

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 
 
-public interface ImgComponent {
+public interface ImgComponent{
     
     public void list();
     public void addLabel(String label);

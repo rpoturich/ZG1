@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -19,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import edu.rit.swen383_800_g2.Composite.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -45,7 +47,7 @@ public class ThumbnailTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new ThumbnailTest();
+        ThumbnailTest thumbnailTest = new ThumbnailTest();
 
     }
 
@@ -58,55 +60,17 @@ public class ThumbnailTest {
             imagePath.add(files.get(i).getAbsolutePath());
         }
 
-        try {
-            image = ImageIO.read(new File(imagePath.get(currentImg)));
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
         JFrame myFrame = new JFrame("Thumbnails");
 
-        
         try {
 
             for (int i = 0; i < files.size(); i++) {
-                Image im = ImageIO.read(new File(imagePath.get(i)));
-                im = im.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                ImageIcon icon = new ImageIcon(im);
-                JLabel label = new JLabel();
-                label.setIcon(icon);
-                centerPanel.add(label);
-                
-                
-                label.addMouseListener(new MouseListener(){
-
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        JOptionPane jp = new JOptionPane();
-                        jp.showMessageDialog(null, "Icon " + label.getIcon() + " pressed.");
-                    }
-
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                    }
-
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                    }
-                });
+                edu.rit.swen383_800_g2.Composite.Image ic;
+                ic = new edu.rit.swen383_800_g2.Composite.Image(imagePath.get(i));
+                centerPanel.add(ic.getIcon());
                 
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -116,7 +80,7 @@ public class ThumbnailTest {
         //System.out.println(image);
 
         myFrame.setLocationRelativeTo(null);
-        myFrame.setSize(500, 500);
+        myFrame.setSize(600, 600);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.setVisible(true);
 

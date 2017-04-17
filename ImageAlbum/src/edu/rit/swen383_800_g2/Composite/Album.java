@@ -16,9 +16,9 @@ public class Album implements ImgComponent {
     private ArrayList<Image> images = new ArrayList<>();
     
     
-    public Album(String label){
+    public Album(String fileName){
         
-        f = new File(label);
+        f = new File(fileName);
         
     }
     

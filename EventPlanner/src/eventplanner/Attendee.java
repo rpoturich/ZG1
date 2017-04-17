@@ -78,7 +78,6 @@ public class Attendee {
     
     public void fetch(ArrayList<String> values) {
         String query = "SELECT * FROM attendee WHERE attendee_id = ? ;";
-        values.add("" + getAttendee_ID());
         
         ArrayList<ArrayList<String>> results;
         results = db.getData(query, values); //call getData using PreparedStatement

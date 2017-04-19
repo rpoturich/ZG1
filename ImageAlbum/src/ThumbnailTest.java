@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import static javax.swing.JFrame.*;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -65,7 +66,14 @@ public class ThumbnailTest {
                         if (e.getButton() == MouseEvent.BUTTON3) {
                             JLabel picLabel = new JLabel(new ImageIcon(ic.getImage()));
                             //ic.getImage();
-                            JOptionPane.showMessageDialog(null, picLabel, "Image", JOptionPane.PLAIN_MESSAGE, null);
+                            JFrame imageFrame = new JFrame();
+                            imageFrame.setTitle("Image Frame");
+                            imageFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                            JPanel imPan = new JPanel();
+                            imPan.add(picLabel);
+                            imageFrame.add(imPan);
+                            imageFrame.setVisible(true);
+                            //JOptionPane.showMessageDialog(null, picLabel, "Image", JOptionPane.PLAIN_MESSAGE, null);
                         }
                     }
                 });

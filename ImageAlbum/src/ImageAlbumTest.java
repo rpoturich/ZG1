@@ -149,6 +149,8 @@ public class ImageAlbumTest {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
+                
+                
                 try {
                     BufferedImage BWimage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
                     

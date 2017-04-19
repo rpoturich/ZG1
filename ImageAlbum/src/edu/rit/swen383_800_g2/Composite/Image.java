@@ -6,8 +6,6 @@
 package edu.rit.swen383_800_g2.Composite;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -49,6 +47,21 @@ public class Image implements ImgComponent {
     
     public JPanel getIcon(){
         return iconPanel;
+    }
+    
+    public java.awt.Image getImage(){
+        
+        /*
+        JPanel imagePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image, 0, 0, (int) (image.getWidth() * 0.3), (int) (image.getHeight() * 0.3), null);
+            }
+        };*/
+        
+        java.awt.Image img = image.getScaledInstance((int)(image.getWidth()*0.3), (int)(image.getHeight()*0.3), java.awt.Image.SCALE_SMOOTH);
+        return img;
     }
 
     @Override

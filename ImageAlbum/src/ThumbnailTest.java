@@ -1,26 +1,17 @@
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import edu.rit.swen383_800_g2.Composite.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -68,7 +59,16 @@ public class ThumbnailTest {
                 edu.rit.swen383_800_g2.Composite.Image ic;
                 ic = new edu.rit.swen383_800_g2.Composite.Image(imagePath.get(i));
                 centerPanel.add(ic.getIcon());
-                
+                ic.getIcon().addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                            JLabel picLabel = new JLabel(new ImageIcon(ic.getImage()));
+                            //ic.getImage();
+                            JOptionPane.showMessageDialog(null, picLabel, "Image", JOptionPane.PLAIN_MESSAGE, null);
+                        }
+                    }
+                });
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block

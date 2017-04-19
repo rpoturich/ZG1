@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 public class Image implements ImgComponent {
 
-    private ArrayList<String> labels;
+    private ArrayList<String> labels = new ArrayList();
     private File f;
     private JLabel iconLabel;
     private ImageIcon icon;

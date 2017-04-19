@@ -124,6 +124,8 @@ public class ImageAlbumTest {
             public void actionPerformed(ActionEvent e) {
 
                 currentImg++;
+                
+                
                 if (currentImg > imagePath.size() - 1) {
                     currentImg = 0;
                 }

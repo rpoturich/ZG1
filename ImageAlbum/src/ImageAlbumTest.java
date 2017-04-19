@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.*;
 import javax.swing.*;
@@ -25,6 +27,9 @@ public class ImageAlbumTest {
     ArrayList<String> imagePath = new ArrayList<String>();
 
     ArrayList<File> files = new ArrayList<File>(Arrays.asList(f.listFiles()));
+    
+    boolean [] blackAndWhiteArray = new boolean [files.size()];
+    
 
     BufferedImage image;
 
@@ -55,6 +60,12 @@ public class ImageAlbumTest {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
+        for (int i = 0; i < blackAndWhiteArray.length; i ++){
+            
+            blackAndWhiteArray[i] = false;
+            
+        }
 
         JFrame myFrame = new JFrame("Image album");
 
@@ -75,9 +86,13 @@ public class ImageAlbumTest {
 
         JButton jbNext = new JButton("Next >");
         JButton jbPrev = new JButton("< Prev");
+        JButton jbBW = new JButton("black and white");
+        
 
         southPanel.add(jbPrev);
         southPanel.add(jbNext);
+        southPanel.add(jbBW);
+        
 
         jbPrev.addActionListener(new ActionListener() {
 
@@ -109,6 +124,8 @@ public class ImageAlbumTest {
             public void actionPerformed(ActionEvent e) {
 
                 currentImg++;
+                
+                
                 if (currentImg > imagePath.size() - 1) {
                     currentImg = 0;
                 }
@@ -124,6 +141,35 @@ public class ImageAlbumTest {
 
                 centerPanel.repaint();
 
+            }
+        });
+        
+        
+        jbBW.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                
+                
+                try {
+                    BufferedImage BWimage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+                    
+                    System.out.println(currentImg);
+                    
+                    Graphics2D g2d = BWimage.createGraphics();
+                    
+                    g2d.drawImage(image, 0, 0, null);
+                    
+                    
+                    ImageIO.write(BWimage, "png",new File(imagePath.get(currentImg) ) );
+                    
+                    image = ImageIO.read(new File(imagePath.get(currentImg)));
+                    
+                    centerPanel.repaint();
+                } catch (IOException ex) {
+                    Logger.getLogger(ImageAlbumTest.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
         });
 
@@ -147,5 +193,7 @@ public class ImageAlbumTest {
     public void paint(Graphics g) {
         g.drawImage(image, 10, 10, null);
     }
+    
+    
 
 }

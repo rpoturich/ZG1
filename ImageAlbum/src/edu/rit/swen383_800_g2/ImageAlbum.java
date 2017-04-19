@@ -30,7 +30,6 @@ public class ImageAlbum extends JFrame{
         setTitle("G2 Image Album");
         setSize(800, 800);
         
-        JPanel menu = new JPanel();
         
         JPanel mainPanel = new JPanel();
         JFrame picFrame = new JFrame();
@@ -60,7 +59,7 @@ public class ImageAlbum extends JFrame{
         JMenu menuExit = new JMenu("Exit");
         
         JMenuItem itemView = new JMenuItem("1 - up");
-        JMenuItem itemView2 = new JMenuItem("2 - up");
+        JMenuItem itemView2 = new JMenuItem("4 - up");
         
         JMenuItem itemSearch = new JMenuItem("Search by label");
         
@@ -89,8 +88,7 @@ public class ImageAlbum extends JFrame{
         menuBar.add(menuAbout);
         menuBar.add(menuExit);
         
-        menu.add(menuBar);
-        add(menu, BorderLayout.NORTH);
+        add(menuBar, BorderLayout.NORTH);
         
         itemInfo.addActionListener(new ActionListener(){
             @Override

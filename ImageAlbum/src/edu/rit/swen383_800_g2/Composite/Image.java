@@ -5,6 +5,7 @@
  */
 package edu.rit.swen383_800_g2.Composite;
 
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -86,6 +87,37 @@ public class Image implements ImgComponent {
     @Override
     public ArrayList<String> getLabels() {
         return labels;
+    }
+
+    public BufferedImage[] resize(int columns, ArrayList<BufferedImage> imgList) {
+        
+        BufferedImage [] resized = new BufferedImage[imgList.size()];
+        
+        int width = 0;
+        int height = 0;
+        
+        if(columns == 1){
+            
+            width = 650;
+            height = 680;
+               
+        }
+        else if(columns == 2){
+            
+            width = 300;
+            height = 330;
+            
+        }
+        for (int i = 0; i < imgList.size(); i++){
+    
+            BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB );
+            
+            Graphics g = bi.createGraphics();
+            g.drawImage(imgList.get(i), 0, 0, width, height, null);
+            resized[i] = bi;
+        }
+        
+        return resized;
     }
 
 }

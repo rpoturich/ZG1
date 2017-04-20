@@ -5,6 +5,9 @@
  */
 package edu.rit.swen838_800_g2.View;
 
+import edu.rit.swen383_800_g2.Command.Command;
+import java.util.Map;
+
 /**
  *
  * @author rachelpoturich
@@ -16,4 +19,10 @@ public class EditMode extends ViewMode{
     public void loadImages(){
     
     }
+
+    @Override
+    public Map<String, Command> buildMap() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

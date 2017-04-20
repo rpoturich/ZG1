@@ -8,7 +8,7 @@ package edu.rit.swen383_800_g2.Command;
 import java.awt.image.BufferedImage;
 
 
-public interface CommandInterface {
+public interface Command {
     
     public void execute();
     public BufferedImage[] getImg();

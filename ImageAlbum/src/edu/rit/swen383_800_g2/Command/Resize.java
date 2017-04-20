@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
-public class Resize implements CommandInterface {
+public class Resize implements Command {
 
     
     private ArrayList<BufferedImage> imgList;

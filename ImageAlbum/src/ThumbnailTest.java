@@ -39,7 +39,8 @@ public class ThumbnailTest {
 
     BufferedImage image;
     int currentImg = 0;
-    //JPanel panelType;
+    
+    //Do I use this?
     String panelType = "4";
 
     JPanel centerPanel = new JPanel();

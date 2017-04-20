@@ -35,6 +35,7 @@ public class ImageAlbumTest {
     int currentImg = 0;
 
     JPanel centerPanel;
+    JFrame myFrame;
 
     /**
      * @param args the command line arguments
@@ -60,7 +61,7 @@ public class ImageAlbumTest {
             e.printStackTrace();
         }
 
-        JFrame myFrame = new JFrame("Image album");
+         myFrame = new JFrame("Image album");
 
         myFrame.setLayout(new BorderLayout());
 
@@ -94,6 +95,60 @@ public class ImageAlbumTest {
         southPanel.add(jbMirror);
         southPanel.add(jbFlip);
         southPanel.add(jbResize);
+        
+        jbRotateLeft.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            	
+            	image = rotateImage(image, 90);
+                int drawLocationX = 0;
+                int drawLocationY = 0;
+
+// Rotation information
+                
+                AffineTransform tx = AffineTransform.getRotateInstance( Math.toRadians(90), image.getWidth() / 2, image.getHeight() / 2);
+                AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
+                Graphics2D g2d = image.createGraphics();
+
+// Drawing the rotated image at the required drawing locations
+                g2d.drawImage(op.filter(image, null), drawLocationX, drawLocationY, null);
+
+                centerPanel.repaint();
+ 
+
+            }
+
+        });
+        
+        
+        jbRotateRight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            	
+            	image = rotateImage(image, -90);
+                int drawLocationX = 0;
+                int drawLocationY = 0;
+
+// Rotation information
+                
+                AffineTransform tx = AffineTransform.getRotateInstance( Math.toRadians(-90), image.getWidth() / 2, image.getHeight() / 2);
+                AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
+                Graphics2D g2d = image.createGraphics();
+
+// Drawing the rotated image at the required drawing locations
+                g2d.drawImage(op.filter(image, null), drawLocationX, drawLocationY, null);
+
+                centerPanel.repaint();
+ 
+
+            }
+
+        });
+        
 
         jbPrev.addActionListener(new ActionListener() {
 
@@ -292,6 +347,19 @@ public class ImageAlbumTest {
 
     public void paint(Graphics g) {
         g.drawImage(image, 10, 10, null);
+    }
+    
+        public BufferedImage rotateImage(BufferedImage image, double degreesAngle) {    
+        int w = image.getWidth();    
+        int h = image.getHeight();    
+        BufferedImage result = new BufferedImage(w, h, image.getType());  
+        Graphics2D g2 = result.createGraphics();  
+        g2.setColor(myFrame.getBackground());
+        g2.fillRect(0, 0, w, h);
+        g2.rotate(Math.toRadians(degreesAngle), w/2, h/2);
+        g2.drawImage(image,null,0,0);  
+        
+        return result;   
     }
 
 }

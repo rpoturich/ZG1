@@ -20,24 +20,29 @@ public class Image implements ImgComponent {
     private ArrayList<String> labels = new ArrayList();
     private File f;
     private JLabel iconLabel;
-    private ImageIcon icon;
+    private ImageIcon smallIcon;
+    private ImageIcon largeIcon;
     private BufferedImage image;
     private JPanel iconPanel;
+    private JLabel imgLabel;
+    private String name;
 
     public Image(String fileName) {
 
         f = new File(fileName);
         try {
             image = ImageIO.read(f);
-            //System.out.println(f.getName());
-            icon = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
-
+            
+            smallIcon = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
+            largeIcon = new ImageIcon(image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH));
+            
             iconPanel = new JPanel(new GridLayout(2, 1));
             iconLabel = new JLabel();
-            iconLabel.setIcon(icon);
-            JLabel imgLabel = new JLabel("Image " + image.getHeight());
+            iconLabel.setIcon(smallIcon);
+            imgLabel = new JLabel(name);
             iconPanel.add(iconLabel);
             iconPanel.add(imgLabel);
+            
             
 
         } catch (Exception e) {
@@ -46,20 +51,28 @@ public class Image implements ImgComponent {
 
     }
     
-    public JPanel getIcon(){
+    public JPanel getSmallIcon(){
+        iconLabel.setIcon(smallIcon);
         return iconPanel;
     }
     
+    public JPanel getLargeIcon(){
+        iconLabel.setIcon(largeIcon);
+        return iconPanel;
+    }
+    
+    public void setName(String _name){
+        name = _name;
+        iconPanel.remove(imgLabel);
+        imgLabel = new JLabel(name);
+        iconPanel.add(imgLabel);
+    }
+    
+    public String getName(){
+        return name;
+    }
+    
     public java.awt.Image getImage(){
-        
-        /*
-        JPanel imagePanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.drawImage(image, 0, 0, (int) (image.getWidth() * 0.3), (int) (image.getHeight() * 0.3), null);
-            }
-        };*/
         
         java.awt.Image img = image.getScaledInstance((int)(image.getWidth()*0.3), (int)(image.getHeight()*0.3), java.awt.Image.SCALE_SMOOTH);
         return img;

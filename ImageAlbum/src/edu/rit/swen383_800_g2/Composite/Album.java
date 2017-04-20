@@ -7,13 +7,15 @@ package edu.rit.swen383_800_g2.Composite;
 
 import java.io.File;
 import java.util.ArrayList;
+import javax.swing.JPanel;
 
 
 public class Album implements ImgComponent {
 
     private ArrayList<String> labels;
     private File f;
-    private ArrayList<Image> images = new ArrayList<>();
+    private ArrayList<ImgComponent> components = new ArrayList<>();
+    private String name;
     
     
     public Album(String fileName){
@@ -42,11 +44,38 @@ public class Album implements ImgComponent {
     
     public void list(){
         
-        for(Image i: images){
+        for(ImgComponent i: components){
             
-            System.out.println("IMG: " + i);
+            System.out.println("IMG or ALBUM: " + i);
             
         }
         
+    }
+    
+    public void addComponent(ImgComponent comp){
+        components.add(comp);
+    }
+    
+    
+    public ArrayList<ImgComponent> readAlbum(){
+        return components;
+    }
+    
+    @Override
+    public JPanel getSmallIcon(){
+        return new JPanel();
+    }
+    
+    @Override
+    public JPanel getLargeIcon(){
+        return new JPanel();
+    }
+    
+    public void setName(String _name){
+        name = _name;
+    }
+    
+    public String getName(){
+        return name;
     }
 }

@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
-public class Resize implements Command {
+public class ResizeCommand implements Command {
 
     
     private ArrayList<BufferedImage> imgList;
@@ -19,7 +19,7 @@ public class Resize implements Command {
     private ImgComponent img;
     private int columns;
     
-    public Resize(ArrayList<BufferedImage> imgList, ImgComponent img, int columns){
+    public ResizeCommand(ArrayList<BufferedImage> imgList, ImgComponent img, int columns){
         
         this.imgList = imgList;
         this.img = img;

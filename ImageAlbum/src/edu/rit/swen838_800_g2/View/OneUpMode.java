@@ -148,10 +148,10 @@ public class OneUpMode extends ViewMode {
             e.printStackTrace();
         }
 
-        setLayout(new GridLayout(0, 1));
+        centerPanel.setLayout(new GridLayout(0, 1));
 
         for (ImgComponent i : components) {
-            add(i.getLargeIcon());
+            centerPanel.add(i.getLargeIcon());
             System.out.println("Placing an image");
         }
 
@@ -217,6 +217,13 @@ public class OneUpMode extends ViewMode {
             }
 
         }); */
+        
+        JScrollPane scroller = new JScrollPane(centerPanel);
+        add(scroller, BorderLayout.CENTER);
+        
+        setSize(800, 800);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
         
     }
 

@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import javax.swing.JButton;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -134,10 +136,10 @@ public class FourUpMode extends ViewMode{
             e.printStackTrace();
         }
 
-        setLayout(new GridLayout(0, 2));
+        centerPanel.setLayout(new GridLayout(0, 2));
 
         for (ImgComponent i : components) {
-            add(i.getSmallIcon());
+            centerPanel.add(i.getSmallIcon());
             System.out.println("Placing an image");
         }
 
@@ -203,6 +205,13 @@ public class FourUpMode extends ViewMode{
             }
 
         }); */
+        
+        JScrollPane scroller = new JScrollPane(centerPanel);
+        add(scroller, BorderLayout.CENTER);
+        
+        setSize(800, 800);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
         
     }
 

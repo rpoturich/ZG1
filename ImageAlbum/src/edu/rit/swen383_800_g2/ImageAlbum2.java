@@ -26,7 +26,7 @@ public class ImageAlbum2 {
      */
     public static void main(String[] args) {
 
-        JFrame mainFrame = new JFrame();
+        //JFrame mainFrame = new JFrame();
         String view;
         view = JOptionPane.showInputDialog(null, "Enter 1 or 4");
         ViewMode viewPanel = null;
@@ -35,14 +35,12 @@ public class ImageAlbum2 {
             viewPanel = new OneUpMode();
         } else if(view.equals("4")){
             viewPanel = new FourUpMode();
+        } else {
+            System.out.println("Incorrect option");
+            System.exit(0);
         }
         
-        JScrollPane scroller = new JScrollPane(viewPanel);
-        mainFrame.add(scroller, BorderLayout.CENTER);
         
-        mainFrame.setSize(800, 800);
-        mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
     }
 
 }

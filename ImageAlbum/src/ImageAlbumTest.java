@@ -10,12 +10,14 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.*;
 import javax.swing.*;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 /**
  *
@@ -27,9 +29,6 @@ public class ImageAlbumTest {
     ArrayList<String> imagePath = new ArrayList<String>();
 
     ArrayList<File> files = new ArrayList<File>(Arrays.asList(f.listFiles()));
-    
-    boolean [] blackAndWhiteArray = new boolean [files.size()];
-    
 
     BufferedImage image;
 
@@ -60,12 +59,6 @@ public class ImageAlbumTest {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-        for (int i = 0; i < blackAndWhiteArray.length; i ++){
-            
-            blackAndWhiteArray[i] = false;
-            
-        }
 
         JFrame myFrame = new JFrame("Image album");
 
@@ -87,12 +80,20 @@ public class ImageAlbumTest {
         JButton jbNext = new JButton("Next >");
         JButton jbPrev = new JButton("< Prev");
         JButton jbBW = new JButton("black and white");
-        
+        JButton jbRotateLeft = new JButton("rotate left");
+        JButton jbRotateRight = new JButton("rotate right");
+        JButton jbMirror = new JButton("mirror");
+        JButton jbFlip = new JButton("flip");
+        JButton jbResize = new JButton("resize");
 
         southPanel.add(jbPrev);
         southPanel.add(jbNext);
         southPanel.add(jbBW);
-        
+        southPanel.add(jbRotateLeft);
+        southPanel.add(jbRotateRight);
+        southPanel.add(jbMirror);
+        southPanel.add(jbFlip);
+        southPanel.add(jbResize);
 
         jbPrev.addActionListener(new ActionListener() {
 
@@ -124,8 +125,7 @@ public class ImageAlbumTest {
             public void actionPerformed(ActionEvent e) {
 
                 currentImg++;
-                
-                
+
                 if (currentImg > imagePath.size() - 1) {
                     currentImg = 0;
                 }
@@ -143,33 +143,133 @@ public class ImageAlbumTest {
 
             }
         });
-        
-        
+
         jbBW.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                
-                
+
                 try {
                     BufferedImage BWimage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
-                    
+
                     System.out.println(currentImg);
-                    
+
                     Graphics2D g2d = BWimage.createGraphics();
-                    
+
                     g2d.drawImage(image, 0, 0, null);
-                    
-                    
-                    ImageIO.write(BWimage, "png",new File(imagePath.get(currentImg) ) );
-                    
+
+                    ImageIO.write(BWimage, "png", new File(imagePath.get(currentImg)));
+
                     image = ImageIO.read(new File(imagePath.get(currentImg)));
-                    
+
                     centerPanel.repaint();
                 } catch (IOException ex) {
                     Logger.getLogger(ImageAlbumTest.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
+            }
+        });
+
+        jbRotateLeft.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+
+        });
+
+        jbMirror.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int width = image.getWidth();
+                int height = image.getHeight();
+
+                Graphics2D g2d = image.createGraphics();
+
+                g2d.drawImage(image, width, 0, -width, height, null);
+
+                centerPanel.repaint();
+
+            }
+        });
+
+        jbFlip.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int height = image.getHeight();
+
+                AffineTransform at = AffineTransform.getScaleInstance(1, -1);
+
+                at.translate(0, -height);
+
+                AffineTransformOp ato = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+
+                image = ato.filter(image, null);
+
+                centerPanel.repaint();
+
+            }
+        });
+
+        jbResize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                myFrame.setEnabled(false);
+
+                JFrame newFrame = new JFrame("resize");
+                newFrame.setLayout(new BorderLayout());
+
+                JLabel label = new JLabel("Width: ");
+                JLabel label1 = new JLabel("Heigth: ");
+
+                JTextField width = new JTextField(5);
+                JTextField heigth = new JTextField(5);
+
+                JPanel panelNorth = new JPanel();
+                panelNorth.add(label);
+                panelNorth.add(width);
+
+                newFrame.add(panelNorth, BorderLayout.NORTH);
+
+                JPanel panelCenter = new JPanel();
+                panelCenter.add(label1);
+                panelCenter.add(heigth);
+
+                newFrame.add(panelCenter, BorderLayout.CENTER);
+
+                JPanel panelSouth = new JPanel();
+                JButton button = new JButton("Resize");
+                panelSouth.add(button);
+                newFrame.add(panelSouth, BorderLayout.SOUTH);
+
+                newFrame.pack();
+
+                button.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        myFrame.setEnabled(true);
+                        newFrame.setVisible(false);
+
+                        Graphics2D g2d = image.createGraphics();
+
+                        g2d.drawImage(image, 0, 0, Integer.parseInt(width.getText()), Integer.parseInt(heigth.getText()), null);
+
+                        centerPanel.repaint();
+
+                        
+                        
+
+                    }
+
+                });
+
+                newFrame.setLocationRelativeTo(null);
+                newFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                newFrame.setVisible(true);
             }
         });
 
@@ -193,7 +293,5 @@ public class ImageAlbumTest {
     public void paint(Graphics g) {
         g.drawImage(image, 10, 10, null);
     }
-    
-    
 
 }

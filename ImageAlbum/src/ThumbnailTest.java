@@ -1,6 +1,7 @@
 
 import edu.rit.swen383_800_g2.Composite.ImgComponent;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,8 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.*;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 /*
@@ -38,8 +39,13 @@ public class ThumbnailTest {
 
     BufferedImage image;
     int currentImg = 0;
+    //JPanel panelType;
+    String panelType = "4";
 
-    JPanel centerPanel = new JPanel(new GridLayout(4, 4));
+    JPanel centerPanel = new JPanel();
+    JButton view = new JButton("1");
+    JTextField searchField = new JTextField(15);
+    JButton enterSearch = new JButton("Search");
 
     /**
      * @param args the command line arguments
@@ -51,27 +57,23 @@ public class ThumbnailTest {
 
     public ThumbnailTest() {
 
-        //    	for (int i = 0 ; i < files.size(); i ++){
-        //    		System.out.println(files.get(i).getAbsolutePath());
-        //    	}
         for (int i = 0; i < files.size(); i++) {
             imagePath.add(files.get(i).getAbsolutePath());
         }
 
         JFrame myFrame = new JFrame("Thumbnails");
 
-        //myFrame.add(buttonPanel, BorderLayout.WEST);
         ArrayList<ImgComponent> components = new ArrayList();
-        final edu.rit.swen383_800_g2.Composite.Image currentImage;
 
         try {
 
             for (int i = 0; i < files.size(); i++) {
                 edu.rit.swen383_800_g2.Composite.Image ic;
                 ic = new edu.rit.swen383_800_g2.Composite.Image(imagePath.get(i));
-                centerPanel.add(ic.getIcon());
+
                 components.add(ic);
-                ic.getIcon().addMouseListener(new MouseAdapter() {
+
+                ic.getSmallIcon().addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON3) {
@@ -98,56 +100,53 @@ public class ThumbnailTest {
                             JPanel labelBut = new JPanel();
                             labelBut.add(addLabelButton);
                             labelBut.add(labelBox);
-                            
-                            
-                            addLabelButton.addActionListener(new ActionListener(){
+
+                            addLabelButton.addActionListener(new ActionListener() {
                                 @Override
-                                public void actionPerformed(ActionEvent ae){
-                                 
+                                public void actionPerformed(ActionEvent ae) {
+
                                     String text = labelBox.getText();
                                     //System.out.println("China");
                                     ic.addLabel(text);
                                     labelBox.setText("");
                                 }
-                            
+
                             });
-                            
 
                             JButton listLabel = new JButton("List labels");
                             JPanel litButt = new JPanel();
                             litButt.add(listLabel);
-                            
-                            listLabel.addActionListener(new ActionListener(){
+
+                            listLabel.addActionListener(new ActionListener() {
                                 @Override
-                                public void actionPerformed(ActionEvent ae){
+                                public void actionPerformed(ActionEvent ae) {
                                     System.out.println(ic.getLabels());
                                 }
-                            
+
                             });
-                            
+
+                            addName.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent ae) {
+                                    String newName = nameBox.getText();
+                                    ic.setName(newName);
+                                    nameBox.setText("");
+                                }
+                            });
 
                             buttonPanel.setLayout(new GridLayout(3, 1));
                             buttonPanel.add(nameBut);
                             buttonPanel.add(labelBut);
                             buttonPanel.add(litButt);
-                            
+
                             imageFrame.add(buttonPanel, BorderLayout.WEST);
-                            
+
                             imageFrame.setVisible(true);
 
                             //JOPTION PANE ROUTE
                             //JOptionPane.showMessageDialog(null, picLabel, "Image", JOptionPane.PLAIN_MESSAGE, null);
                         }
                     }
-                });
-
-                ic.getIcon().addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        if (e.getButton() == MouseEvent.BUTTON1) {
-                        }
-                    }
-
                 });
 
             }//for loop
@@ -157,12 +156,82 @@ public class ThumbnailTest {
             e.printStackTrace();
         }
 
-        myFrame.add(centerPanel, BorderLayout.CENTER);
-        //centerPanel.repaint();
-        //System.out.println(image);
+        centerPanel.setLayout(new GridLayout(0, 1));
 
+        for (ImgComponent i : components) {
+            centerPanel.add(i.getLargeIcon());
+        }
+
+        view.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (view.getText().equals("4")) {
+                    view.setText("1");
+                    centerPanel.setLayout(new GridLayout(0, 1));
+
+                    for (ImgComponent ic : components) {
+                        ic.getLargeIcon();
+                    }
+                } else if (view.getText().equals("1")) {
+                    view.setText("4");
+                    centerPanel.setLayout(new GridLayout(0, 2));
+
+                    for (ImgComponent ic : components) {
+                        ic.getSmallIcon();
+                    }
+                }
+            }
+
+        });
+
+        enterSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String labelToFind = searchField.getText();
+
+                System.out.println(labelToFind); //PRINT CHECK
+
+                ArrayList<ImgComponent> foundComponents = new ArrayList();
+                ArrayList<String> foundLabels = new ArrayList();
+
+                for (ImgComponent ic : components) {
+                    foundLabels = ic.getLabels();
+                    System.out.println(foundLabels.size()); //PRINT CHECK
+
+                    for (String s : foundLabels) {
+                        if (s.equalsIgnoreCase(labelToFind)) {
+                            System.out.println(s); //PRINT CHECK
+                            foundComponents.add(ic);
+                        } //if
+
+                    } //inner for
+
+                } //outer for
+
+                JFrame foundFrame = new JFrame();
+                foundFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                JPanel foundPanel = new JPanel(new GridLayout(2, 0));
+
+                for (ImgComponent ic : foundComponents) {
+                    foundPanel.add(ic.getSmallIcon());
+                }
+
+                foundFrame.add(foundPanel);
+                foundFrame.setSize(350, 350);
+                foundFrame.setVisible(true);
+            }
+
+        });
+
+        JScrollPane scroll = new JScrollPane(centerPanel);
+        myFrame.add(scroll, BorderLayout.CENTER);
+        myFrame.add(view, BorderLayout.WEST);
+        myFrame.add(searchField, BorderLayout.SOUTH);
+        myFrame.add(enterSearch, BorderLayout.EAST);
+
+        myFrame.setMinimumSize(new Dimension(350, 350));
         myFrame.setLocationRelativeTo(null);
-        myFrame.setSize(600, 600);
+        myFrame.setSize(350, 350);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.setVisible(true);
 

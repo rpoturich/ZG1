@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.rit.swen383_800_g2.Command;
 
 import edu.rit.swen383_800_g2.Composite.ImgComponent;
 import java.awt.image.BufferedImage;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,7 +18,12 @@ public class ListLabelsCommand implements Command{
     
     @Override
     public void execute() {
-        System.out.println(ic.getLabels());
+        String msg = "";
+        
+        for(String s : ic.getLabels()){
+            msg += s + "\n";
+        }
+        JOptionPane.showMessageDialog(null, "Labels:\n" + msg);
     }
 
     @Override

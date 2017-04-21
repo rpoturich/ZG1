@@ -38,10 +38,6 @@ public class OneUpMode extends ViewMode {
         super();
     }
 
-    @Override
-    public Map<String, Command> buildMap() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     
 

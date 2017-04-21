@@ -56,12 +56,14 @@ public abstract class ViewMode extends JFrame {
 
         searchField = new JTextField(15);
         enterSearch = new JButton("Search");
+        JPanel searchPanel = new JPanel();
+        searchPanel.add(enterSearch);
 
         add(albumPanel, BorderLayout.NORTH);
-        add(view, BorderLayout.WEST);
+        add(vPanel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);
         add(searchField, BorderLayout.SOUTH);
-        add(enterSearch, BorderLayout.EAST);
+        add(searchPanel, BorderLayout.EAST);
 
         loadImages();
 
@@ -128,90 +130,8 @@ public abstract class ViewMode extends JFrame {
         addAlbum.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                JFrame newAlbumFrame = new JFrame();
-                JPanel panel = new JPanel(new GridLayout(2, 0));
-                JLabel nLabel = new JLabel("Enter a name:");
-                JTextField nField = new JTextField(15);
-
-                panel.add(nLabel);
-                panel.add(nField);
-
-                ArrayList<ImgComponent> albumComponents = new ArrayList();
-
-                JButton pickComps = new JButton("Add to this album");
-                panel.add(pickComps);
-                pickComps.addActionListener(new ActionListener() {
-                    
-                    public void actionPerformed(ActionEvent ae) {
-                        albumComponents.clear();
-                        JFrame pickCompsFrame = new JFrame();
-                        JPanel pickPanel = new JPanel(new GridLayout(2, 0));
-
-                        for(ImgComponent i : components){
-                            for (MouseListener m : i.getSmallIcon().getMouseListeners()) {
-                            
-                                i.getSmallIcon().removeMouseListener(m);
-                                System.out.println("removing the mouse listener from icon");
-                            
-                            }
-                        }
-
-                        for (ImgComponent i : components) {
-                            //pickPanel.add(i.getSmallIcon());
-                            i.getSmallIcon().addMouseListener(new MouseListener() {
-                                @Override
-                                public void mousePressed(MouseEvent me) {
-                                    if (me.getButton() == MouseEvent.BUTTON1) {
-                                        albumComponents.add(i);
-                                        components.remove(i);
-                                        centerPanel.remove(i.getLargeIcon());
-                                        centerPanel.remove(i.getSmallIcon());
-                                        System.out.println("Im a listener of an icon");
-                                        System.out.println(albumComponents);
-                                        //JOptionPane.showMessageDialog(null, "added component " + i.getName());
-                                    }
-                                }
-
-                                @Override
-                                public void mouseClicked(MouseEvent e) {
-                                }
-
-                                @Override
-                                public void mouseReleased(MouseEvent e) {
-                                }
-
-                                @Override
-                                public void mouseEntered(MouseEvent e) {
-                                }
-
-                                @Override
-                                public void mouseExited(MouseEvent e) {
-                                }
-                            });
-                        }
-
-                        pickCompsFrame.add(pickPanel);
-                        pickCompsFrame.setVisible(true);
-
-                    }
-                });
-
-                edu.rit.swen383_800_g2.Composite.Album newAlbum = new edu.rit.swen383_800_g2.Composite.Album("New Album", imagePath.get(0));
-                newAlbum.addComponents(albumComponents);
-
-                newAlbum.getSmallIcon().addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        Command c = new InspectCommand(currentMode, e, newAlbum);
-                        c.execute();
-                    }
-                });
-
-                components.add(newAlbum);
-                centerPanel.add(newAlbum.getLargeIcon());
-                repaint();
-                newAlbumFrame.add(panel);
-                newAlbumFrame.setVisible(true);
+                Command c = new AddAlbumCommand(components, currentMode, imagePath);
+                c.execute();
             }
         });
 
@@ -225,54 +145,44 @@ public abstract class ViewMode extends JFrame {
         setVisible(true);
     }
 
-    public Map<String, Command> buildMap() {
-        Command c;
-        Map<String, Command> commandMap = new HashMap();
-
-        c = new ToggleCommand(this);
-        commandMap.put("toggle", c);
-
-        return commandMap;
-    }
-
     public JButton getView() {
         return view;
-    }
-
-    public void setView(JButton view) {
-        this.view = view;
     }
 
     public JTextField getSearchField() {
         return searchField;
     }
 
-    public void setSearchField(JTextField searchField) {
-        this.searchField = searchField;
-    }
-
     public JButton getEnterSearch() {
         return enterSearch;
-    }
-
-    public void setEnterSearch(JButton enterSearch) {
-        this.enterSearch = enterSearch;
     }
 
     public JPanel getCenterPanel() {
         return centerPanel;
     }
 
-    public void setCenterPanel(JPanel centerPanel) {
-        this.centerPanel = centerPanel;
-    }
-
+    
     public ArrayList<ImgComponent> getComponentsArray() {
         return components;
+    }
+    
+    public void setCenterPanel(JPanel centerPanel) {
+        this.centerPanel = centerPanel;
     }
 
     public void setComponents(ArrayList<ImgComponent> components) {
         this.components = components;
     }
+    
+    public void setEnterSearch(JButton enterSearch) {
+        this.enterSearch = enterSearch;
+    }
+    
+    public void setSearchField(JTextField searchField) {
+        this.searchField = searchField;
+    }
 
+    public void setView(JButton view) {
+        this.view = view;
+    }
 }

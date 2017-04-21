@@ -69,11 +69,8 @@ public class InspectCommand implements Command {
             addLabelButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-
-                    String text = labelBox.getText();
-                    //System.out.println("China");
-                    ic.addLabel(text);
-                    labelBox.setText("");
+                    Command c = new AddLabelCommand(ic, labelBox);
+                    c.execute();
                 }
 
             });
@@ -85,7 +82,8 @@ public class InspectCommand implements Command {
             listLabel.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    System.out.println(ic.getLabels());
+                    Command c = new ListLabelsCommand(ic);
+                    c.execute();
                 }
 
             });
@@ -93,9 +91,8 @@ public class InspectCommand implements Command {
             addName.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    String newName = nameBox.getText();
-                    ic.setName(newName);
-                    nameBox.setText("");
+                    Command c = new ChangeNameCommand(ic, nameBox);
+                    c.execute();
                 }
             });
 

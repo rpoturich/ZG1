@@ -7,31 +7,27 @@ package edu.rit.swen383_800_g2.Command;
 
 import edu.rit.swen383_800_g2.Composite.ImgComponent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import javax.swing.JTextField;
 
 /**
  *
  * @author rachelpoturich
  */
-public class AddLabelCommand implements Command {
+public class ListLabelsCommand implements Command{
 
     private ImgComponent ic;
-    private JTextField labelBox;
     
-    public AddLabelCommand(ImgComponent i, JTextField field){
+    public ListLabelsCommand(ImgComponent i){
         ic = i;
-        labelBox = field;
     }
     
+    @Override
     public void execute() {
-        String text = labelBox.getText();
-        ic.addLabel(text);
-        labelBox.setText("");
+        System.out.println(ic.getLabels());
     }
 
     @Override
     public BufferedImage[] getImg() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 }

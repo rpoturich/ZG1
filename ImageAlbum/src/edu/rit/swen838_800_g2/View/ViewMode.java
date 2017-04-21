@@ -1,36 +1,33 @@
 package edu.rit.swen838_800_g2.View;
 
+/**
+ * Class to represent the window available to the user
+ * ViewMode extends JFrame
+ * 
+ */
+
+
 import edu.rit.swen383_800_g2.Command.Command;
 import edu.rit.swen383_800_g2.Command.*;
 import edu.rit.swen383_800_g2.Composite.*;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
-import javax.swing.GrayFilter;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-/**
- *
- * @author rachelpoturich
- */
+
 public class ViewMode extends JFrame {
 
     protected JPanel centerPanel;
@@ -42,6 +39,11 @@ public class ViewMode extends JFrame {
     protected Map<String, Command> commands;
     protected ArrayList<String> imagePath;
 
+    
+    /**
+     * Constructor
+     * Instantiates a JFrame
+     */
     public ViewMode() {
         components = new ArrayList();
 
@@ -67,9 +69,15 @@ public class ViewMode extends JFrame {
 
         loadImages();
 
-    }
+    }//end constructor
 
+    
+    /**
+     * Loads list of images, adds components to JFrame, and assigns listeners
+     */
     public void loadImages() {
+        
+        //read images
         File f = new File("images");
         imagePath = new ArrayList<String>();
 
@@ -83,6 +91,7 @@ public class ViewMode extends JFrame {
 
         try {
 
+            //create Image objects and assign listeners to the icon
             for (int i = 1; i < files.size(); i++) {
                 edu.rit.swen383_800_g2.Composite.Image ic;
                 ic = new edu.rit.swen383_800_g2.Composite.Image(imagePath.get(i));
@@ -106,10 +115,14 @@ public class ViewMode extends JFrame {
 
         centerPanel.setLayout(new GridLayout(0, 1));
 
+        
+        //add icons to the view
         for (ImgComponent i : components) {
             centerPanel.add(i.getLargeIcon());
         }
 
+        
+        //toggle view
         view.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -119,6 +132,8 @@ public class ViewMode extends JFrame {
 
         });
 
+        
+        //search
         enterSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -127,6 +142,8 @@ public class ViewMode extends JFrame {
             }
         });
 
+        
+        //add an album
         addAlbum.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -135,6 +152,8 @@ public class ViewMode extends JFrame {
             }
         });
 
+        
+        //add all elements to scrollpane and add to jframe
         JScrollPane scroller = new JScrollPane(centerPanel);
         add(scroller, BorderLayout.CENTER);
 
@@ -143,8 +162,12 @@ public class ViewMode extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-    }
+        
+    } //end loadImages
 
+    
+    /* GETTERS */ 
+    
     public JButton getView() {
         return view;
     }
@@ -165,6 +188,9 @@ public class ViewMode extends JFrame {
     public ArrayList<ImgComponent> getComponentsArray() {
         return components;
     }
+    
+    
+    /* SETTERS */
     
     public void setCenterPanel(JPanel centerPanel) {
         this.centerPanel = centerPanel;

@@ -1,13 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Command to add a label to an ImgComponent
+ * Pattern: Command
  */
+
 package edu.rit.swen383_800_g2.Command;
 
 import edu.rit.swen383_800_g2.Composite.ImgComponent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import javax.swing.JTextField;
 
 /**

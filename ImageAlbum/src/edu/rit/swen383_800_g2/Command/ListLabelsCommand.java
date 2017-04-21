@@ -1,3 +1,9 @@
+/*
+ * Command to list the labels associated with an ImgComponent
+ *
+ * Pattern: Command
+ */
+
 package edu.rit.swen383_800_g2.Command;
 
 import edu.rit.swen383_800_g2.Composite.ImgComponent;

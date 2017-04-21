@@ -1,3 +1,7 @@
+/*
+ * Test class
+ */
+
 
 import edu.rit.swen383_800_g2.Composite.ImgComponent;
 import java.awt.BorderLayout;
@@ -21,11 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author rachelpoturich

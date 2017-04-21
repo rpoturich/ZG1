@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Album class, part of the ImgComponent
+ * Pattern: Composite
+ *
+ * This class represents an Album, which can contain
+ * all types of ImgComponents
  */
 package edu.rit.swen383_800_g2.Composite;
 
@@ -28,8 +30,15 @@ public class Album implements ImgComponent {
     private JLabel imgLabel;
     private String name;
 
+    
+    /**
+     * Constructor
+     * @param _name name of the album
+     * @param fileName  file name to read image 
+     */
     public Album(String _name, String fileName) {
 
+        //read and set icon for album
         f = new File(fileName);
         name = _name;
 
@@ -52,6 +61,9 @@ public class Album implements ImgComponent {
 
     }
 
+    
+    /* OVERRIDES */
+    
     @Override
     public void addLabel(String label) {
         System.out.println(label);
@@ -69,28 +81,6 @@ public class Album implements ImgComponent {
     @Override
     public ArrayList<String> getLabels() {
         return labels;
-    }
-
-    public void list() {
-
-        for (ImgComponent i : components) {
-
-            System.out.println("IMG or ALBUM: " + i);
-
-        }
-
-    }
-
-    public void addComponent(ImgComponent comp) {
-        components.add(comp);
-    }
-    
-    public void addComponents(ArrayList<ImgComponent> list){
-        components = list;
-    }
-
-    public ArrayList<ImgComponent> readAlbum() {
-        return components;
     }
 
     @Override
@@ -124,8 +114,31 @@ public class Album implements ImgComponent {
         return name;
     }
 
-
     @Override
     public void setImage(BufferedImage im) {
     }
+    
+    public void list() {
+
+        for (ImgComponent i : components) {
+
+            System.out.println("IMG or ALBUM: " + i);
+
+        }
+
+    }
+
+    public void addComponent(ImgComponent comp) {
+        components.add(comp);
+    }
+    
+    public void addComponents(ArrayList<ImgComponent> list){
+        components = list;
+    }
+
+    public ArrayList<ImgComponent> readAlbum() {
+        return components;
+    }
+
+    
 }

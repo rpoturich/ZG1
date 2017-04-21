@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Image class, part of the ImgComponent
+ * Pattern: Composite
+ *
+ * This class represents an Image
  */
 package edu.rit.swen383_800_g2.Composite;
 
@@ -31,8 +32,14 @@ public class Image implements ImgComponent {
     private JLabel timeLabel;
     private String name;
 
+    /**
+     * Constructor
+     * 
+     * @param fileName  name of the file to read 
+     */
     public Image(String fileName) {
 
+        //read a file and set attributes
         f = new File(fileName);
         try {
             image = ImageIO.read(f);
@@ -45,6 +52,7 @@ public class Image implements ImgComponent {
             iconLabel.setIcon(smallIcon);
             imgLabel = new JLabel(name);
 
+            //add date
             DateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
             Date date = new Date();
             timeLabel = new JLabel(format.format(date));
@@ -57,8 +65,11 @@ public class Image implements ImgComponent {
             e.printStackTrace();
         }
 
-    }
+    } //end constructor
 
+    
+    /* GETTERS */
+    
     public JPanel getSmallIcon() {
         iconLabel.setIcon(smallIcon);
         return iconPanel;
@@ -67,13 +78,6 @@ public class Image implements ImgComponent {
     public JPanel getLargeIcon() {
         iconLabel.setIcon(largeIcon);
         return iconPanel;
-    }
-
-    public void setName(String _name) {
-        name = _name;
-        iconPanel.remove(imgLabel);
-        imgLabel = new JLabel(name);
-        iconPanel.add(imgLabel);
     }
 
     public String getName() {
@@ -86,7 +90,29 @@ public class Image implements ImgComponent {
         java.awt.Image img = image.getScaledInstance((int) (image.getWidth() * 0.3), (int) (image.getHeight() * 0.3), java.awt.Image.SCALE_SMOOTH);
         return img;
     }
+    
+    @Override
+    public String getLabel(int index) {
 
+        return labels.get(index);
+
+    }
+
+    @Override
+    public ArrayList<String> getLabels() {
+        return labels;
+    }
+
+    
+    public void setName(String _name) {
+        name = _name;
+        iconPanel.remove(imgLabel);
+        imgLabel = new JLabel(name);
+        iconPanel.add(imgLabel);
+    }
+    
+    /* SETTERS */
+    
     public void setImage(BufferedImage newImage) {
         image = newImage;
     }
@@ -101,18 +127,6 @@ public class Image implements ImgComponent {
 
         labels.add(label);
 
-    }
-
-    @Override
-    public String getLabel(int index) {
-
-        return labels.get(index);
-
-    }
-
-    @Override
-    public ArrayList<String> getLabels() {
-        return labels;
     }
 
     public BufferedImage[] resize(int columns, ArrayList<BufferedImage> imgList) {
@@ -145,4 +159,4 @@ public class Image implements ImgComponent {
         return resized;
     }
 
-}
+} //end class

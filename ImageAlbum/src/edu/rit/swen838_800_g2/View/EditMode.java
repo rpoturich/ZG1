@@ -1,15 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Class to represent the window available to the user for editing images
+ * EditMode extends ViewMode
+ * 
  */
+
 package edu.rit.swen838_800_g2.View;
 
-import edu.rit.swen383_800_g2.Command.Command;
-import edu.rit.swen383_800_g2.Composite.Image;
 import edu.rit.swen383_800_g2.Composite.ImgComponent;
 import java.awt.BorderLayout;
-import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -22,6 +20,11 @@ public class EditMode extends JFrame{
     ImgComponent img;
     ImgComponent editImg;
     
+    
+    /**
+     * Constructor
+     * @param _img  the image to be manipulated 
+     */
     public EditMode(ImgComponent _img){
         img = _img;
         editImg = _img;
@@ -39,8 +42,6 @@ public class EditMode extends JFrame{
         add(mainPanel);
         setVisible(true);
         
-    }
+    } //end constructor
     
-    
-
-}
+} //end class

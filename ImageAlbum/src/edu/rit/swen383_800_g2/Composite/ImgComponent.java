@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Image/Album Component Interface
+ * Pattern: Composite
+ *
+ * Provides an interface for all Image components used in the program
+ *
  */
 package edu.rit.swen383_800_g2.Composite;
 
@@ -10,9 +12,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 
-
 public interface ImgComponent{
     
+    //List of classes to be implemented
     public void list();
     public void addLabel(String label);
     public String getLabel(int index);

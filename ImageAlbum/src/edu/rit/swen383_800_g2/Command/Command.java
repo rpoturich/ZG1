@@ -1,12 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Command interface for all commands to be used 
+ * by the ViewMode
+ *
+ * Pattern: Command
  */
+
+
 package edu.rit.swen383_800_g2.Command;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 
 public interface Command {
@@ -15,4 +17,4 @@ public interface Command {
     
     public BufferedImage[] getImg();
     
-}
+} //end interface

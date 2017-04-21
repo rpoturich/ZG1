@@ -814,4 +814,5 @@ public class ImageAlbumTest {
         return JFrame.EXIT_ON_CLOSE;
     }
 
+    
 }

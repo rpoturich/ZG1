@@ -6,11 +6,13 @@
 package edu.rit.swen383_800_g2.Command;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 
 public interface Command {
     
     public void execute();
+    
     public BufferedImage[] getImg();
     
 }

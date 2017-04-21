@@ -6,6 +6,7 @@
 package edu.rit.swen383_800_g2.Command;
 
 import edu.rit.swen383_800_g2.Composite.ImgComponent;
+import edu.rit.swen838_800_g2.View.*;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -18,10 +19,21 @@ import javax.swing.JPanel;
  */
 public class ToggleCommand implements Command {
 
+    private ViewMode viewMode;
+    private JButton view;
+    private JPanel centerPanel;
+    private ArrayList<ImgComponent> components;
+    
+    public ToggleCommand(ViewMode _viewMode){
+        viewMode = _viewMode;
+        
+        view = viewMode.getView();
+        centerPanel = viewMode.getCenterPanel();
+        components = viewMode.getComponentsArray();
+    }
+    
+    @Override
     public void execute() {
-        JButton view = new JButton("View"); //REMOVE AT SOME POINT
-        JPanel centerPanel = new JPanel(); //REMOVE AT SOME POINT
-        ArrayList<ImgComponent> components = new ArrayList(); //REMOVE AT SOME POINT
         
         if (view.getText().equals("4")) {
             view.setText("1");

@@ -31,6 +31,7 @@ public class ImageAlbum2 {
         view = JOptionPane.showInputDialog(null, "Enter 1 or 4");
         ViewMode viewPanel = null;
         
+        
         if(view.equals("1")){
             viewPanel = new OneUpMode();
         } else if(view.equals("4")){

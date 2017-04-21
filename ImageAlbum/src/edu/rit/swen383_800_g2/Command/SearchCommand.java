@@ -35,37 +35,38 @@ public class SearchCommand implements Command {
     public void execute() {
         String labelToFind = searchTextBox.getText();
 
-        System.out.println(labelToFind); //PRINT CHECK
+        if (labelToFind.equals("") || labelToFind == null) {
+            JOptionPane.showMessageDialog(null, "Please enter search criteria");
+        } else {
 
-        ArrayList<ImgComponent> foundComponents = new ArrayList();
-        ArrayList<String> foundLabels = new ArrayList();
+            ArrayList<ImgComponent> foundComponents = new ArrayList();
+            ArrayList<String> foundLabels;
 
-        for (ImgComponent ic : components) {
-            foundLabels = ic.getLabels();
-            System.out.println(foundLabels.size()); //PRINT CHECK
+            for (ImgComponent ic : components) {
+                foundLabels = ic.getLabels();
 
-            for (String s : foundLabels) {
-                if (s.equalsIgnoreCase(labelToFind)) {
-                    System.out.println(s); //PRINT CHECK
-                    foundComponents.add(ic);
-                } //if
+                for (String s : foundLabels) {
+                    if (s.equalsIgnoreCase(labelToFind)) {
+                        System.out.println(s); //PRINT CHECK
+                        foundComponents.add(ic);
+                    } //if
 
-            } //inner for
+                } //inner for
 
-        } //outer for
+            } //outer for
 
-        JFrame foundFrame = new JFrame();
-        foundFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        JPanel foundPanel = new JPanel(new GridLayout(2, 0));
+            JFrame foundFrame = new JFrame();
+            foundFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            JPanel foundPanel = new JPanel(new GridLayout(2, 0));
 
-        for (ImgComponent ic : foundComponents) {
-            foundPanel.add(ic.getSmallIcon());
+            for (ImgComponent ic : foundComponents) {
+                foundPanel.add(ic.getSmallIcon());
+            }
+
+            foundFrame.add(foundPanel);
+            foundFrame.setSize(350, 350);
+            foundFrame.setVisible(true);
         }
-
-        foundFrame.add(foundPanel);
-        foundFrame.setSize(350, 350);
-        foundFrame.setVisible(true);
-
     }
 
     @Override

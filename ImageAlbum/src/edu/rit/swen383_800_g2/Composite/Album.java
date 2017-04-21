@@ -5,83 +5,123 @@
  */
 package edu.rit.swen383_800_g2.Composite;
 
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 
 public class Album implements ImgComponent {
 
     private ArrayList<String> labels;
     private File f;
     private ArrayList<ImgComponent> components = new ArrayList<>();
+    private JLabel iconLabel;
+    private ImageIcon smallIcon;
+    private ImageIcon largeIcon;
+    private BufferedImage image;
+    private JPanel iconPanel;
+    private JLabel imgLabel;
     private String name;
-    
-    
-    public Album(String fileName){
-        
+
+    public Album(String _name, String fileName) {
+
         f = new File(fileName);
-        
+        name = _name;
+
+        try {
+            image = ImageIO.read(f);
+
+            smallIcon = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
+            largeIcon = new ImageIcon(image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH));
+
+            iconPanel = new JPanel(new GridLayout(2, 1));
+            iconLabel = new JLabel();
+            iconLabel.setIcon(smallIcon);
+            imgLabel = new JLabel(name);
+            iconPanel.add(iconLabel);
+            iconPanel.add(imgLabel);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
-    
+
     @Override
-    public void addLabel(String label){
-        
+    public void addLabel(String label) {
+
         labels.add(label);
-        
+
     }
-    
+
     @Override
-    public String getLabel(int index){
-        
+    public String getLabel(int index) {
+
         return labels.get(index);
     }
-    
+
     @Override
-    public ArrayList<String> getLabels(){
+    public ArrayList<String> getLabels() {
         return labels;
     }
-    
-    public void list(){
-        
-        for(ImgComponent i: components){
-            
+
+    public void list() {
+
+        for (ImgComponent i : components) {
+
             System.out.println("IMG or ALBUM: " + i);
-            
+
         }
-        
+
     }
-    
-    public void addComponent(ImgComponent comp){
+
+    public void addComponent(ImgComponent comp) {
         components.add(comp);
     }
-    
-    
-    public ArrayList<ImgComponent> readAlbum(){
+
+    public ArrayList<ImgComponent> readAlbum() {
         return components;
     }
-    
+
     @Override
-    public JPanel getSmallIcon(){
-        return new JPanel();
+    public JPanel getSmallIcon() {
+        iconLabel.setIcon(smallIcon);
+        return iconPanel;
     }
-    
+
     @Override
-    public JPanel getLargeIcon(){
-        return new JPanel();
+    public JPanel getLargeIcon() {
+        iconLabel.setIcon(largeIcon);
+        return iconPanel;
     }
-    
-    public void setName(String _name){
+
+    @Override
+    public void setName(String _name) {
         name = _name;
-    }
-    
-    public String getName(){
-        return name;
+        iconPanel.remove(imgLabel);
+        imgLabel = new JLabel(name);
+        iconPanel.add(imgLabel);
     }
 
     @Override
     public Image getImage() {
+    
+        return (Image) image;
+    }
+
+    @Override
+    public String getName() {  
+        return name;
+    }
+
+
+    @Override
+    public void setImage(BufferedImage im) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

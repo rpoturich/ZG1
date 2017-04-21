@@ -5,6 +5,7 @@
  */
 package edu.rit.swen383_800_g2.Composite;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
@@ -21,4 +22,5 @@ public interface ImgComponent{
     public JPanel getSmallIcon();
     public JPanel getLargeIcon();
     public java.awt.Image getImage();
+    public void setImage(BufferedImage im);
 }

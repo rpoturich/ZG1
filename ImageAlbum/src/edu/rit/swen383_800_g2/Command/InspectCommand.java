@@ -30,20 +30,18 @@ public class InspectCommand implements Command {
     private ViewMode viewMode;
     private MouseEvent e;
     private ImgComponent ic;
-    
-    public InspectCommand(ViewMode _viewMode, MouseEvent _e, ImgComponent _ic){
+
+    public InspectCommand(ViewMode _viewMode, MouseEvent _e, ImgComponent _ic) {
         viewMode = _viewMode;
         e = _e;
         ic = _ic;
     }
-    
-    
+
     @Override
     public void execute() {
 
         if (e.getButton() == MouseEvent.BUTTON3) {
             JLabel picLabel = new JLabel(new ImageIcon(ic.getImage()));
-            //ic.getImage();
             JFrame imageFrame = new JFrame();
             imageFrame.setTitle("Image Frame");
             imageFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -96,10 +94,26 @@ public class InspectCommand implements Command {
                 }
             });
 
-            buttonPanel.setLayout(new GridLayout(3, 1));
-            buttonPanel.add(nameBut);
-            buttonPanel.add(labelBut);
-            buttonPanel.add(litButt);
+            if (ic instanceof edu.rit.swen383_800_g2.Composite.Image) {
+                buttonPanel.setLayout(new GridLayout(4, 1));
+                buttonPanel.add(nameBut);
+                buttonPanel.add(labelBut);
+                buttonPanel.add(litButt);
+                
+                JButton addAlbum = new JButton("Add to album");
+                JTextField albumField = new JTextField(15);
+                JPanel albumBut = new JPanel();
+                albumBut.add(addAlbum);
+                albumBut.add(albumField);
+                
+                buttonPanel.add(albumBut);
+                
+            } else if(ic instanceof edu.rit.swen383_800_g2.Composite.Album){
+                buttonPanel.setLayout(new GridLayout(3, 1));
+                buttonPanel.add(nameBut);
+                buttonPanel.add(labelBut);
+                buttonPanel.add(litButt);
+            }
 
             imageFrame.add(buttonPanel, BorderLayout.WEST);
 

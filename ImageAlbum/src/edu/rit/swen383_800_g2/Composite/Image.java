@@ -79,6 +79,10 @@ public class Image implements ImgComponent {
         return img;
     }
 
+    public void setImage(BufferedImage newImage){
+        image = newImage;
+    }
+    
     @Override
     public void list() {
 
@@ -133,5 +137,6 @@ public class Image implements ImgComponent {
         
         return resized;
     }
+
 
 }

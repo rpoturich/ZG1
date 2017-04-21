@@ -145,12 +145,17 @@ public abstract class ViewMode extends JFrame {
                         JPanel pickPanel = new JPanel(new GridLayout(2, 0));
                         
                         for (ImgComponent i : components) {
-                            pickPanel.add(i.getSmallIcon());
+                            //pickPanel.add(i.getSmallIcon());
                             i.getSmallIcon().addMouseListener(new MouseAdapter() {
                                 @Override
                                 public void mousePressed(MouseEvent me) {
-                                    albumComponents.add(i);
-                                    JOptionPane.showMessageDialog(null, "added component " + i.getName());
+                                    if(me.getButton() == MouseEvent.BUTTON1){
+                                        albumComponents.add(i);
+                                        components.remove(i);
+                                        centerPanel.remove(i.getLargeIcon());
+                                        centerPanel.remove(i.getSmallIcon());
+                                        JOptionPane.showMessageDialog(null, "added component " + i.getName());
+                                    }
                                 }
                             });
                         }
@@ -161,8 +166,20 @@ public abstract class ViewMode extends JFrame {
                     }
                 });
 
-                edu.rit.swen383_800_g2.Composite.Album newAlbum = new edu.rit.swen383_800_g2.Composite.Album("a1", imagePath.get(0));
+                edu.rit.swen383_800_g2.Composite.Album newAlbum = new edu.rit.swen383_800_g2.Composite.Album("New Album", imagePath.get(0));
+                newAlbum.addComponents(albumComponents);
                 
+                newAlbum.getSmallIcon().addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        Command c = new InspectCommand(currentMode, e, newAlbum);
+                        c.execute();
+                    }
+                });
+                
+                components.add(newAlbum);
+                centerPanel.add(newAlbum.getLargeIcon());
+                repaint();
                 newAlbumFrame.add(panel);
                 newAlbumFrame.setVisible(true);
             }

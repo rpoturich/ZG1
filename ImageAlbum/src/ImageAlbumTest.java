@@ -287,23 +287,38 @@ public class ImageAlbumTest {
                 JFrame newFrame = new JFrame("resize");
                 newFrame.setLayout(new BorderLayout());
 
-                JLabel label = new JLabel("Width: ");
-                JLabel label1 = new JLabel("Heigth: ");
+                JLabel label = new JLabel("X coords: ");
+                JLabel label1 = new JLabel("Y coords: ");
+                JLabel label2 = new JLabel("Width: ");
+                JLabel label3 = new JLabel("Heigth: ");
 
+                JTextField x = new JTextField(5);
+                JTextField y = new JTextField(5);
                 JTextField width = new JTextField(5);
                 JTextField heigth = new JTextField(5);
 
-                JPanel panelNorth = new JPanel();
-                panelNorth.add(label);
-                panelNorth.add(width);
-
-                newFrame.add(panelNorth, BorderLayout.NORTH);
-
-                JPanel panelCenter = new JPanel();
-                panelCenter.add(label1);
-                panelCenter.add(heigth);
-
-                newFrame.add(panelCenter, BorderLayout.CENTER);
+//                JPanel panelNorth = new JPanel();
+//                panelNorth.add(label);
+//                panelNorth.add(width);
+//
+//                newFrame.add(panelNorth, BorderLayout.NORTH);
+//
+//                JPanel panelCenter = new JPanel();
+//                panelCenter.add(label1);
+//                panelCenter.add(heigth);
+//
+//                newFrame.add(panelCenter, BorderLayout.CENTER);
+                JPanel panelCenter = new JPanel(new GridLayout(4, 2));
+                 panelCenter.add(label);
+                 panelCenter.add(x);
+                 panelCenter.add(label1);
+                 panelCenter.add(y);
+                 panelCenter.add(label2);
+                 panelCenter.add(width);
+                 panelCenter.add(label3);
+                 panelCenter.add(heigth);
+                 
+                 newFrame.add(panelCenter, BorderLayout.NORTH);
 
                 JPanel panelSouth = new JPanel();
                 JButton button = new JButton("Resize");
@@ -319,10 +334,28 @@ public class ImageAlbumTest {
 
                         myFrame.setEnabled(true);
                         newFrame.setVisible(false);
+                        
+                        try{
+                        BufferedImage originalImgage = ImageIO.read(new File(imagePath.get(currentImg)));
 
-                        Graphics2D g2d = image.createGraphics();
+			
+			System.out.println("Original Image Dimension: "+originalImgage.getWidth()+"x"+originalImgage.getHeight());
 
-                        g2d.drawImage(image, 0, 0, Integer.parseInt(width.getText()), Integer.parseInt(heigth.getText()), null);
+			BufferedImage SubImgage = originalImgage.getSubimage(Integer.parseInt(x.getText()), Integer.parseInt(y.getText()), 
+                                                                   Integer.parseInt(width.getText()),Integer.parseInt(heigth.getText()));
+			System.out.println("Cropped Image Dimension: "+SubImgage.getWidth()+"x"+SubImgage.getHeight());
+
+			File outputfile = new File(imagePath.get(currentImg));
+			ImageIO.write(SubImgage, "jpg", outputfile);
+
+			System.out.println("Image cropped successfully: "+outputfile.getPath());
+                        }catch(IOException ioe){
+                            ioe.printStackTrace();
+                        }
+
+                        //Graphics2D g2d = image.createGraphics();
+
+                        //g2d.drawImage(image, 0, 0, Integer.parseInt(width.getText()), Integer.parseInt(heigth.getText()), null);
 
                         centerPanel.repaint();
 

@@ -83,6 +83,10 @@ public class Album implements ImgComponent {
     public void addComponent(ImgComponent comp) {
         components.add(comp);
     }
+    
+    public void addComponents(ArrayList<ImgComponent> list){
+        components = list;
+    }
 
     public ArrayList<ImgComponent> readAlbum() {
         return components;

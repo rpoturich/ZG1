@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 public class Album implements ImgComponent {
 
-    private ArrayList<String> labels;
+    private ArrayList<String> labels = new ArrayList();
     private File f;
     private ArrayList<ImgComponent> components = new ArrayList<>();
     private JLabel iconLabel;
@@ -54,7 +54,8 @@ public class Album implements ImgComponent {
 
     @Override
     public void addLabel(String label) {
-
+        System.out.println(label);
+        System.out.println(labels.size());
         labels.add(label);
 
     }

@@ -31,7 +31,7 @@ import javax.swing.JTextField;
  *
  * @author rachelpoturich
  */
-public abstract class ViewMode extends JFrame {
+public class ViewMode extends JFrame {
 
     protected JPanel centerPanel;
     protected ArrayList<ImgComponent> components;

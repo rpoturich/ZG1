@@ -1,14 +1,6 @@
 package edu.rit.swen383_800_g2;
 
-import edu.rit.swen838_800_g2.View.FourUpMode;
-import edu.rit.swen838_800_g2.View.OneUpMode;
 import edu.rit.swen838_800_g2.View.ViewMode;
-import java.awt.BorderLayout;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import javax.swing.*;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,22 +18,9 @@ public class ImageAlbum2 {
      */
     public static void main(String[] args) {
 
-        //JFrame mainFrame = new JFrame();
-        String view;
-        //view = JOptionPane.showInputDialog(null, "Enter 1 or 4");
         ViewMode viewPanel = null;
         
-        viewPanel = new OneUpMode();
-        
-        /*
-        if(view.equals("1")){
-            viewPanel = new OneUpMode();
-        } else if(view.equals("4")){
-            viewPanel = new FourUpMode();
-        } else {
-            System.out.println("Incorrect option");
-            System.exit(0);
-        }*/
+        viewPanel = new ViewMode();
         
         
     }

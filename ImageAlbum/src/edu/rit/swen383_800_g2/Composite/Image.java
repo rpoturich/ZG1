@@ -9,7 +9,10 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -25,6 +28,7 @@ public class Image implements ImgComponent {
     private BufferedImage image;
     private JPanel iconPanel;
     private JLabel imgLabel;
+    private JLabel timeLabel;
     private String name;
 
     public Image(String fileName) {
@@ -32,57 +36,61 @@ public class Image implements ImgComponent {
         f = new File(fileName);
         try {
             image = ImageIO.read(f);
-            
+
             smallIcon = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
             largeIcon = new ImageIcon(image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH));
-            
-            iconPanel = new JPanel(new GridLayout(2, 1));
+
+            iconPanel = new JPanel(new GridLayout(3, 1));
             iconLabel = new JLabel();
             iconLabel.setIcon(smallIcon);
             imgLabel = new JLabel(name);
+
+            DateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+            Date date = new Date();
+            timeLabel = new JLabel(format.format(date));
+            
             iconPanel.add(iconLabel);
             iconPanel.add(imgLabel);
-            
-            
+            iconPanel.add(timeLabel);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    
-    public JPanel getSmallIcon(){
+
+    public JPanel getSmallIcon() {
         iconLabel.setIcon(smallIcon);
         return iconPanel;
     }
-    
-    public JPanel getLargeIcon(){
+
+    public JPanel getLargeIcon() {
         iconLabel.setIcon(largeIcon);
         return iconPanel;
     }
-    
-    public void setName(String _name){
+
+    public void setName(String _name) {
         name = _name;
         iconPanel.remove(imgLabel);
         imgLabel = new JLabel(name);
         iconPanel.add(imgLabel);
     }
-    
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    
+
     @Override
-    public java.awt.Image getImage(){
-        
-        java.awt.Image img = image.getScaledInstance((int)(image.getWidth()*0.3), (int)(image.getHeight()*0.3), java.awt.Image.SCALE_SMOOTH);
+    public java.awt.Image getImage() {
+
+        java.awt.Image img = image.getScaledInstance((int) (image.getWidth() * 0.3), (int) (image.getHeight() * 0.3), java.awt.Image.SCALE_SMOOTH);
         return img;
     }
 
-    public void setImage(BufferedImage newImage){
+    public void setImage(BufferedImage newImage) {
         image = newImage;
     }
-    
+
     @Override
     public void list() {
 
@@ -108,35 +116,33 @@ public class Image implements ImgComponent {
     }
 
     public BufferedImage[] resize(int columns, ArrayList<BufferedImage> imgList) {
-        
-        BufferedImage [] resized = new BufferedImage[imgList.size()];
-        
+
+        BufferedImage[] resized = new BufferedImage[imgList.size()];
+
         int width = 0;
         int height = 0;
-        
-        if(columns == 1){
-            
+
+        if (columns == 1) {
+
             width = 650;
             height = 680;
-               
-        }
-        else if(columns == 2){
-            
+
+        } else if (columns == 2) {
+
             width = 300;
             height = 330;
-            
+
         }
-        for (int i = 0; i < imgList.size(); i++){
-    
-            BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB );
-            
+        for (int i = 0; i < imgList.size(); i++) {
+
+            BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
             Graphics g = bi.createGraphics();
             g.drawImage(imgList.get(i), 0, 0, width, height, null);
             resized[i] = bi;
         }
-        
+
         return resized;
     }
-
 
 }

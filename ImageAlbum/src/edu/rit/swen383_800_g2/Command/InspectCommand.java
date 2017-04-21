@@ -100,13 +100,22 @@ public class InspectCommand implements Command {
                 buttonPanel.add(labelBut);
                 buttonPanel.add(litButt);
                 
-                JButton addAlbum = new JButton("Add to album");
-                JTextField albumField = new JTextField(15);
-                JPanel albumBut = new JPanel();
-                albumBut.add(addAlbum);
-                albumBut.add(albumField);
+                JButton editButton = new JButton("Edit Picture");
+                JPanel editBut = new JPanel();
+                editBut.add(editButton);
                 
-                buttonPanel.add(albumBut);
+                buttonPanel.add(editBut);
+                
+                editButton.addActionListener(new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent ae){
+                        JFrame editFrame = new EditMode(ic);
+                        editFrame.setVisible(true);
+                        editFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    }
+                });
+                
+                
                 
             } else if(ic instanceof edu.rit.swen383_800_g2.Composite.Album){
                 buttonPanel.setLayout(new GridLayout(3, 1));

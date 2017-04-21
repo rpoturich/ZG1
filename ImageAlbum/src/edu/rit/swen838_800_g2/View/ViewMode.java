@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -140,22 +141,51 @@ public abstract class ViewMode extends JFrame {
                 JButton pickComps = new JButton("Add to this album");
                 panel.add(pickComps);
                 pickComps.addActionListener(new ActionListener() {
+                    
                     public void actionPerformed(ActionEvent ae) {
+                        albumComponents.clear();
                         JFrame pickCompsFrame = new JFrame();
                         JPanel pickPanel = new JPanel(new GridLayout(2, 0));
-                        
+
+                        for(ImgComponent i : components){
+                            for (MouseListener m : i.getSmallIcon().getMouseListeners()) {
+                            
+                                i.getSmallIcon().removeMouseListener(m);
+                                System.out.println("removing the mouse listener from icon");
+                            
+                            }
+                        }
+
                         for (ImgComponent i : components) {
                             //pickPanel.add(i.getSmallIcon());
-                            i.getSmallIcon().addMouseListener(new MouseAdapter() {
+                            i.getSmallIcon().addMouseListener(new MouseListener() {
                                 @Override
                                 public void mousePressed(MouseEvent me) {
-                                    if(me.getButton() == MouseEvent.BUTTON1){
+                                    if (me.getButton() == MouseEvent.BUTTON1) {
                                         albumComponents.add(i);
                                         components.remove(i);
                                         centerPanel.remove(i.getLargeIcon());
                                         centerPanel.remove(i.getSmallIcon());
-                                        JOptionPane.showMessageDialog(null, "added component " + i.getName());
+                                        System.out.println("Im a listener of an icon");
+                                        System.out.println(albumComponents);
+                                        //JOptionPane.showMessageDialog(null, "added component " + i.getName());
                                     }
+                                }
+
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+                                }
+
+                                @Override
+                                public void mouseReleased(MouseEvent e) {
+                                }
+
+                                @Override
+                                public void mouseEntered(MouseEvent e) {
+                                }
+
+                                @Override
+                                public void mouseExited(MouseEvent e) {
                                 }
                             });
                         }
@@ -168,7 +198,7 @@ public abstract class ViewMode extends JFrame {
 
                 edu.rit.swen383_800_g2.Composite.Album newAlbum = new edu.rit.swen383_800_g2.Composite.Album("New Album", imagePath.get(0));
                 newAlbum.addComponents(albumComponents);
-                
+
                 newAlbum.getSmallIcon().addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
@@ -176,7 +206,7 @@ public abstract class ViewMode extends JFrame {
                         c.execute();
                     }
                 });
-                
+
                 components.add(newAlbum);
                 centerPanel.add(newAlbum.getLargeIcon());
                 repaint();

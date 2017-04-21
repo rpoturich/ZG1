@@ -20,4 +20,5 @@ public interface ImgComponent{
     public ArrayList<String> getLabels();
     public JPanel getSmallIcon();
     public JPanel getLargeIcon();
+    public java.awt.Image getImage();
 }

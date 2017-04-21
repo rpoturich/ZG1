@@ -28,10 +28,12 @@ public class ImageAlbum2 {
 
         //JFrame mainFrame = new JFrame();
         String view;
-        view = JOptionPane.showInputDialog(null, "Enter 1 or 4");
+        //view = JOptionPane.showInputDialog(null, "Enter 1 or 4");
         ViewMode viewPanel = null;
         
+        viewPanel = new OneUpMode();
         
+        /*
         if(view.equals("1")){
             viewPanel = new OneUpMode();
         } else if(view.equals("4")){
@@ -39,7 +41,7 @@ public class ImageAlbum2 {
         } else {
             System.out.println("Incorrect option");
             System.exit(0);
-        }
+        }*/
         
         
     }

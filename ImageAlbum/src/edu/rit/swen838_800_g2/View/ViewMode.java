@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,6 +60,8 @@ public abstract class ViewMode extends JFrame {
 
         ArrayList<File> files = new ArrayList(Arrays.asList(f.listFiles()));
 
+        ViewMode currentMode = this;
+        
         for (int i = 0; i < files.size(); i++) {
             imagePath.add(files.get(i).getAbsolutePath());
         }
@@ -69,6 +73,14 @@ public abstract class ViewMode extends JFrame {
                 ic = new edu.rit.swen383_800_g2.Composite.Image(imagePath.get(i));
 
                 components.add(ic);
+                
+                ic.getSmallIcon().addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e){
+                        Command c = new InspectCommand(currentMode, e, ic);
+                        c.execute();
+                    }
+                });
 
             }//for loop
 
@@ -83,7 +95,7 @@ public abstract class ViewMode extends JFrame {
             centerPanel.add(i.getLargeIcon());
         }
 
-        ViewMode currentMode = this;
+        
 
         view.addActionListener(new ActionListener() {
             @Override
@@ -92,6 +104,14 @@ public abstract class ViewMode extends JFrame {
                 c.execute();
             }
 
+        });
+        
+        enterSearch.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae){
+                Command c = new SearchCommand(currentMode);
+                c.execute();
+            }
         });
         
         JScrollPane scroller = new JScrollPane(centerPanel);

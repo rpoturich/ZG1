@@ -72,6 +72,7 @@ public class Image implements ImgComponent {
         return name;
     }
     
+    @Override
     public java.awt.Image getImage(){
         
         java.awt.Image img = image.getScaledInstance((int)(image.getWidth()*0.3), (int)(image.getHeight()*0.3), java.awt.Image.SCALE_SMOOTH);

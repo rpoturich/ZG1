@@ -5,6 +5,7 @@
  */
 package edu.rit.swen383_800_g2.Composite;
 
+import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -77,5 +78,10 @@ public class Album implements ImgComponent {
     
     public String getName(){
         return name;
+    }
+
+    @Override
+    public Image getImage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

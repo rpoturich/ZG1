@@ -5,6 +5,8 @@
  */
 package eventplanner;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author rachelpoturich
@@ -16,7 +18,20 @@ public class EventPlanner {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new EventPlannerFrame();
+        EventDatabase db = new EventDatabase("jdbc:mysql://:3306/events?useSSL=false","root","mysql");
+        db.connect();
+        
+         Bussiness student = new Bussiness();
+      
+         ArrayList<Bussiness> events;
+      
+          events = student.select(db);
+    
+          System.out.println(student.printEvents(events));
+          
+          new EventPlannerFrame();
+
+        
     }
     
 }

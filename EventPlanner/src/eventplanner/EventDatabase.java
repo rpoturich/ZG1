@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.Time;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,7 +26,8 @@ public class EventDatabase {
     private boolean connection = false;
     private String query = ""; //query statement
     
-    
+    private Statement statement;
+    private ResultSet result;
     
     /**
      * Constructor
@@ -78,7 +82,12 @@ public class EventDatabase {
 
         try {
             connect = DriverManager.getConnection(url, user, pass);
-            connection = true;
+             System.out.println("Successfully connected to the database!");
+              statement = connect.createStatement();
+             connection = true;
+             
+             
+           
         } catch (SQLException sqle) {
             
             connection = false;
@@ -100,6 +109,7 @@ public class EventDatabase {
         try {
             connect.close();
             connection = connect.isClosed();
+            System.out.println("DAtabase close!");
         } catch (SQLException sqle) {
             
         } catch (Exception e) {
@@ -125,23 +135,23 @@ public class EventDatabase {
         ArrayList<ArrayList<String>> table = new ArrayList<ArrayList<String>>();
         
         try{    
-            ResultSet results = ps.executeQuery();
-            int cols = results.getMetaData().getColumnCount(); //number of columns to iterate over
+            result = ps.executeQuery();
+            int cols = result.getMetaData().getColumnCount(); //number of columns to iterate over
 
             ArrayList<String> columnRow = new ArrayList<String>();
 
             for (int i = 1; i <= cols; i++) {
-                String columnName = results.getMetaData().getColumnName(i);
+                String columnName = result.getMetaData().getColumnName(i);
                 columnRow.add(columnName);
             }
             
             table.add(columnRow);
             
-            while (results.next()) {
+            while (result.next()) {
                 ArrayList<String> row = new ArrayList<String>();
 
                 for (int i = 1; i <= cols; i++) {
-                    String data = results.getString(i);
+                    String data = result.getString(i);
                     row.add(data);
                 }
                 table.add(row);
@@ -190,7 +200,7 @@ public class EventDatabase {
         return isExecuted;
     } //end setData
     
-    
+ 
     /**
      * Prepares a String representing a query and binds values
      * to the PreparedStatement.
@@ -216,6 +226,43 @@ public class EventDatabase {
         
         return ps;
     } //end prepare
+   
+    public ArrayList<Bussiness> getDataWithColumns(String query){
+      ArrayList<Bussiness> events = new ArrayList<>();
+  
+      try{
+       
+         result = statement.executeQuery(query);
+         
+         boolean row = result.next();
+       
+         if (row == false){
+            System.out.println("EMPTY SET: There is no data...");
+         }
+         else{
+       
 
+           while (row){
+            
+               String nameEvent = result.getString(1);       
+               Time date = result.getTime(2); 
+               String room = result.getString(3);
+               String presenter = result.getString(4);
+               
+               Bussiness bussiness = new Bussiness(nameEvent,date,room,presenter);
+               events.add(bussiness);
+   
+               row = result.next();     
+           }
+        }
+      } 
+      catch (SQLException se){
+         System.out.println("Could not query the database4...");
+      }
+      catch (Exception e){
+         System.out.println("Could not query the database5...");
+      }
+      return events;
+   }
 
 } //end class

@@ -21,6 +21,9 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
  * @author Student
  */
 public class ImageAlbumTest {
+    
+    
+    
 
     File f = new File("images");
     ArrayList<String> imagePath = new ArrayList<String>();

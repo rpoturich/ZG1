@@ -17,21 +17,19 @@ public class EventPlanner {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        EventDatabase db = new EventDatabase("jdbc:mysql://:3306/events?useSSL=false","root","mysql");
+        EventDatabase db = new EventDatabase("jdbc:mysql://localhost:3306/events", "root", "G78x6y!#3m(]");
         db.connect();
-        
-         Bussiness student = new Bussiness();
-      
-         ArrayList<Bussiness> events;
-      
-          events = student.select(db);
-    
-          System.out.println(student.printEvents(events));
-          
-          new EventPlannerFrame();
 
-        
+        InfoHandler student = new InfoHandler(db);
+
+        ArrayList<InfoHandler> events;
+
+        events = student.select(db);
+
+        //System.out.println(events.size() + " events");
+        //System.out.println(student.printEvents(events));
+        new EventPlannerFrame(events, student);
+
     }
-    
+
 }

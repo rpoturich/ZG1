@@ -224,6 +224,13 @@ public class Event {
         boolean vid = isVideo();
         String description = getEventDescription();
         int audience = getAudienceType();
+        int vidBoolInt = 0;
+        
+        if(vid){
+            vidBoolInt = 1;
+        } else {
+            vidBoolInt = 0;
+        }
         
         //set List of values for PreparedStatement
         ArrayList<String> values = new ArrayList<String>();
@@ -233,11 +240,11 @@ public class Event {
         values.add("" + end);
         values.add("" + room);
         values.add("" + day);
-        values.add("" + vid);
+        values.add("" + vidBoolInt);
         values.add(description);
         values.add("" + audience);
         
-        String insertStatement = "INSERT INTO equipment VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ?);";
+        String insertStatement = "INSERT INTO event VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ?);";
 
         db.setData(insertStatement, values); //call setData using PreparedStatement
     }

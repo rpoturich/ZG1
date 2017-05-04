@@ -22,6 +22,7 @@ public class InfoHandler {
     String namePresenter;
     private ArrayList<String> labels = new ArrayList<String>();
     private EventDatabase db;
+    private User user;
 
     public InfoHandler(EventDatabase _db) {
         db = _db;
@@ -89,6 +90,16 @@ public class InfoHandler {
     public void setDb(EventDatabase db) {
         this.db = db;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+   
 
     public ArrayList<String> getLabels() {
         return labels;
@@ -171,15 +182,16 @@ public class InfoHandler {
     }
 
     public void authenticate(String username, String password) {
-        //System.out.println("Attempting to authenticate " + username + " " + password);
-        User user = new User(username);
+        
+        user = new User(username);
         user.setDb(db);
 
+        System.out.println(user.getRole());
+        
         if (user.login(username, password)) {
             String fullname = username;
             String role = user.getRole();
-            System.out.println(fullname + " was just trying to login"); //PRINT CHECK
-            JOptionPane.showMessageDialog(null, "Welcome " + fullname + " !\nCurrent role: " + role);
+            JOptionPane.showMessageDialog(null, "Welcome!\nCurrent role: " + role);
         } else {
             JOptionPane.showMessageDialog(null, "Incorrect id or password.");
         }

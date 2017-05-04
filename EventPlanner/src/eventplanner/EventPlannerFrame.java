@@ -14,6 +14,8 @@ public class EventPlannerFrame extends JFrame {
     
     private ArrayList<InfoHandler> events;
     private InfoHandler b;
+    private String role;
+    
 
     public EventPlannerFrame(ArrayList<InfoHandler> e, InfoHandler _b) {
 
@@ -21,9 +23,16 @@ public class EventPlannerFrame extends JFrame {
         showLoginForm();
         
         events = e;
+        role = b.getUser().getRole();
+        
+        System.out.println("Current role: " + role);
+        
+        if(role.equals("admin")){
+            System.out.println("You are an admin");
+        }
         
         //Basic set up
-        setTitle("Event Planner");
+        setTitle("Welcome " + b.getUser().getUsername());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setSize(800, 500);
@@ -125,17 +134,21 @@ public class EventPlannerFrame extends JFrame {
             JButton searchButton = new JButton(searchIcon);
             row.add(searchButton);
             
-            JButton addButton = new JButton(addIcon);
-            row.add(addButton);
-
+            if(role.equals("admin") || role.equals("editor")){
+                JButton addButton = new JButton(addIcon);
+                row.add(addButton);
+            }
+                
             String[] eventStringPieces = s.split("\\s+");
             for (String st : eventStringPieces) {
                 System.out.println(st);
                 row.add(new JLabel(st));
             }
 
-            row.add(new JButton(listIcon));
-            row.setBackground(Color.WHITE);
+            if(role.equals("admin") || role.equals("editor")){
+                row.add(new JButton(listIcon));
+                row.setBackground(Color.WHITE);
+            }
 
             centerPanel.add(row);
         }
@@ -156,369 +169,381 @@ public class EventPlannerFrame extends JFrame {
         eventMenu.add(presenterItem);
         eventMenu.add(roomItem);
 
-        //Event management
-        JMenu eventMan = new JMenu("Event Management");
-        menu.add(eventMan);
+        if(role.equals("admin") || role.equals("editor")){
+            //Event management
+            JMenu eventMan = new JMenu("Event Management");
+            menu.add(eventMan);
 
-        //Event management options
-        JMenuItem addEventItem = new JMenuItem("Add Event");
+            //Event management options
+            JMenuItem addEventItem = new JMenuItem("Add Event");
 
-        addEventItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            addEventItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-                JFrame popUp = new JFrame();
+                    JFrame popUp = new JFrame();
 
-                popUp.setTitle("Insert event data.");
+                    popUp.setTitle("Insert event data.");
 
-                JPanel gridPanel = new JPanel();
-                gridPanel.setLayout(new GridLayout(9, 2));
+                    JPanel gridPanel = new JPanel();
+                    gridPanel.setLayout(new GridLayout(9, 2));
 
-                JPanel flowPanel = new JPanel();
-                flowPanel.setLayout(new FlowLayout());
+                    JPanel flowPanel = new JPanel();
+                    flowPanel.setLayout(new FlowLayout());
 
-                JLabel eventIDLabel = new JLabel("Event ID: ");
-                JLabel eventNameLabel = new JLabel("Event name: ");
-                JLabel startTimeIDLabel = new JLabel("Start time ID: ");
-                JLabel endTimeIDLabel = new JLabel("End time ID: ");
-                JLabel roomIDLabel = new JLabel("Room ID: ");
-                JLabel dayIDLabel = new JLabel("Day ID: ");
-                JLabel videoLabel = new JLabel("Video (true/false): ");
-                JLabel eventDescriptionLabel = new JLabel("Event description: ");
-                JLabel audienceTypeLabel = new JLabel("Audience type: ");
+                    JLabel eventIDLabel = new JLabel("Event ID: ");
+                    JLabel eventNameLabel = new JLabel("Event name: ");
+                    JLabel startTimeIDLabel = new JLabel("Start time ID: ");
+                    JLabel endTimeIDLabel = new JLabel("End time ID: ");
+                    JLabel roomIDLabel = new JLabel("Room ID: ");
+                    JLabel dayIDLabel = new JLabel("Day ID: ");
+                    JLabel videoLabel = new JLabel("Video (true/false): ");
+                    JLabel eventDescriptionLabel = new JLabel("Event description: ");
+                    JLabel audienceTypeLabel = new JLabel("Audience type: ");
 
-                JTextField eventIDTextField = new JTextField();
-                JTextField eventNameTextField = new JTextField();
-                JTextField startTimeIDTextField = new JTextField();
-                JTextField endTimeIDTextField = new JTextField();
-                JTextField roomIDTextField = new JTextField();
-                JTextField dayIDTextField = new JTextField();
-                JTextField videoTextField = new JTextField();
-                JTextField eventDescriptionTextField = new JTextField();
-                JTextField audienceTypeTextField = new JTextField();
+                    JTextField eventIDTextField = new JTextField();
+                    JTextField eventNameTextField = new JTextField();
+                    JTextField startTimeIDTextField = new JTextField();
+                    JTextField endTimeIDTextField = new JTextField();
+                    JTextField roomIDTextField = new JTextField();
+                    JTextField dayIDTextField = new JTextField();
+                    JTextField videoTextField = new JTextField();
+                    JTextField eventDescriptionTextField = new JTextField();
+                    JTextField audienceTypeTextField = new JTextField();
 
-                gridPanel.add(eventIDLabel);
-                gridPanel.add(eventIDTextField);
+                    gridPanel.add(eventIDLabel);
+                    gridPanel.add(eventIDTextField);
 
-                gridPanel.add(eventNameLabel);
-                gridPanel.add(eventNameTextField);
+                    gridPanel.add(eventNameLabel);
+                    gridPanel.add(eventNameTextField);
 
-                gridPanel.add(startTimeIDLabel);
-                gridPanel.add(startTimeIDTextField);
+                    gridPanel.add(startTimeIDLabel);
+                    gridPanel.add(startTimeIDTextField);
 
-                gridPanel.add(endTimeIDLabel);
-                gridPanel.add(endTimeIDTextField);
+                    gridPanel.add(endTimeIDLabel);
+                    gridPanel.add(endTimeIDTextField);
 
-                gridPanel.add(roomIDLabel);
-                gridPanel.add(roomIDTextField);
+                    gridPanel.add(roomIDLabel);
+                    gridPanel.add(roomIDTextField);
 
-                gridPanel.add(dayIDLabel);
-                gridPanel.add(dayIDTextField);
+                    gridPanel.add(dayIDLabel);
+                    gridPanel.add(dayIDTextField);
 
-                gridPanel.add(videoLabel);
-                gridPanel.add(videoTextField);
+                    gridPanel.add(videoLabel);
+                    gridPanel.add(videoTextField);
 
-                gridPanel.add(eventDescriptionLabel);
-                gridPanel.add(eventDescriptionTextField);
+                    gridPanel.add(eventDescriptionLabel);
+                    gridPanel.add(eventDescriptionTextField);
 
-                gridPanel.add(audienceTypeLabel);
-                gridPanel.add(audienceTypeTextField);
+                    gridPanel.add(audienceTypeLabel);
+                    gridPanel.add(audienceTypeTextField);
 
-                JButton submitButton = new JButton("Submit");
+                    JButton submitButton = new JButton("Submit");
 
-                submitButton.addActionListener(new ActionListener() {
+                    submitButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                            int eventID = Integer.parseInt(eventIDTextField.getText());
+                            String eventName = eventNameTextField.getText();
+                            int startTimeID = Integer.parseInt(startTimeIDTextField.getText());
+                            int endTimeID = Integer.parseInt(endTimeIDTextField.getText());
+                            int roomID = Integer.parseInt(roomIDTextField.getText());
+                            int dayID = Integer.parseInt(roomIDTextField.getText());
+                            boolean video = Boolean.parseBoolean(videoTextField.getText());
+                            String eventDescription = eventDescriptionTextField.getText();
+                            int audienceType = Integer.parseInt(audienceTypeTextField.getText());
+
+                            Event newEvent = new Event();
+                            newEvent.setDb(b.getDb());
+
+                            newEvent.setEventID(eventID);
+                            newEvent.setEventName(eventName);
+                            newEvent.setStartTimeID(startTimeID);
+                            newEvent.setEndTimeID(endTimeID);
+                            newEvent.setRoomID(roomID);
+                            newEvent.setDayID(dayID);
+                            newEvent.setVideo(video);
+                            newEvent.setDescription(eventDescription);
+                            newEvent.setAudienceType(audienceType);
+
+                            newEvent.post(eventID);
+
+                        }
+                    });
+
+                    JButton closeButton = new JButton("Close");
+
+                    closeButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                            popUp.dispose();
+
+                        }
+                    });
+
+                    flowPanel.add(submitButton);
+                    flowPanel.add(closeButton);
+
+                    popUp.add(gridPanel, BorderLayout.NORTH);
+                    popUp.add(flowPanel, BorderLayout.SOUTH);
+
+                    popUp.pack();
+                    popUp.setLocationRelativeTo(null);
+                    popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    popUp.setVisible(true);
+
+                }
+            });
+            
+            eventMan.add(addEventItem);
+
+            if(role.equals("admin")){
+                JMenuItem removeEventItem = new JMenuItem("Remove Event");
+
+                removeEventItem.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        int eventID = Integer.parseInt(eventIDTextField.getText());
-                        String eventName = eventNameTextField.getText();
-                        int startTimeID = Integer.parseInt(startTimeIDTextField.getText());
-                        int endTimeID = Integer.parseInt(endTimeIDTextField.getText());
-                        int roomID = Integer.parseInt(roomIDTextField.getText());
-                        int dayID = Integer.parseInt(roomIDTextField.getText());
-                        boolean video = Boolean.parseBoolean(videoTextField.getText());
-                        String eventDescription = eventDescriptionTextField.getText();
-                        int audienceType = Integer.parseInt(audienceTypeTextField.getText());
+                        JFrame popUp = new JFrame();
 
-                        Event newEvent = new Event();
-                        newEvent.setDb(b.getDb());
+                        popUp.setTitle("Insert event ID.");
 
-                        newEvent.setEventID(eventID);
-                        newEvent.setEventName(eventName);
-                        newEvent.setStartTimeID(startTimeID);
-                        newEvent.setEndTimeID(endTimeID);
-                        newEvent.setRoomID(roomID);
-                        newEvent.setDayID(dayID);
-                        newEvent.setVideo(video);
-                        newEvent.setDescription(eventDescription);
-                        newEvent.setAudienceType(audienceType);
+                        JPanel gridPanel = new JPanel();
+                        gridPanel.setLayout(new GridLayout(1, 2));
 
-                        newEvent.post(eventID);
+                        JPanel flowPanel = new JPanel();
+                        flowPanel.setLayout(new FlowLayout());
+
+                        JLabel eventIDLabel = new JLabel("Event ID: ");
+                        JTextField eventIDTextField = new JTextField();
+
+                        gridPanel.add(eventIDLabel);
+                        gridPanel.add(eventIDTextField);
+
+                        JButton submitButton = new JButton("Submit");
+
+                        submitButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+
+                                int eventID;
+
+                                eventID = Integer.parseInt(eventIDTextField.getText());
+
+                                Event newEvent = new Event();
+                                newEvent.setDb(b.getDb());
+                                newEvent.setEventID(eventID);
+
+                                newEvent.delete();
+
+                            }
+                        });
+
+                        JButton closeButton = new JButton("Close");
+
+                        closeButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+
+                                popUp.dispose();
+
+                            }
+                        });
+
+                        flowPanel.add(submitButton);
+                        flowPanel.add(closeButton);
+
+                        popUp.add(gridPanel, BorderLayout.NORTH);
+                        popUp.add(flowPanel, BorderLayout.SOUTH);
+
+                        popUp.pack();
+                        popUp.setLocationRelativeTo(null);
+                        popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                        popUp.setVisible(true);
 
                     }
                 });
-
-                JButton closeButton = new JButton("Close");
-
-                closeButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        popUp.dispose();
-
-                    }
-                });
-
-                flowPanel.add(submitButton);
-                flowPanel.add(closeButton);
-
-                popUp.add(gridPanel, BorderLayout.NORTH);
-                popUp.add(flowPanel, BorderLayout.SOUTH);
-
-                popUp.pack();
-                popUp.setLocationRelativeTo(null);
-                popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                popUp.setVisible(true);
-
+            
+                eventMan.add(removeEventItem);
             }
-        });
 
-        JMenuItem removeEventItem = new JMenuItem("Remove Event");
+            
+            
+        }
 
-        removeEventItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                JFrame popUp = new JFrame();
-
-                popUp.setTitle("Insert event ID.");
-
-                JPanel gridPanel = new JPanel();
-                gridPanel.setLayout(new GridLayout(1, 2));
-
-                JPanel flowPanel = new JPanel();
-                flowPanel.setLayout(new FlowLayout());
-
-                JLabel eventIDLabel = new JLabel("Event ID: ");
-                JTextField eventIDTextField = new JTextField();
-
-                gridPanel.add(eventIDLabel);
-                gridPanel.add(eventIDTextField);
-
-                JButton submitButton = new JButton("Submit");
-
-                submitButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        int eventID;
-
-                        eventID = Integer.parseInt(eventIDTextField.getText());
-
-                        Event newEvent = new Event();
-                        newEvent.setDb(b.getDb());
-                        newEvent.setEventID(eventID);
-
-                        newEvent.delete();
-
-                    }
-                });
-
-                JButton closeButton = new JButton("Close");
-
-                closeButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        popUp.dispose();
-
-                    }
-                });
-
-                flowPanel.add(submitButton);
-                flowPanel.add(closeButton);
-
-                popUp.add(gridPanel, BorderLayout.NORTH);
-                popUp.add(flowPanel, BorderLayout.SOUTH);
-
-                popUp.pack();
-                popUp.setLocationRelativeTo(null);
-                popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                popUp.setVisible(true);
-
-            }
-        });
-
-        eventMan.add(addEventItem);
-        eventMan.add(removeEventItem);
-
-        //Room management
-        JMenu roomMan = new JMenu("Room Management");
-        menu.add(roomMan);
-
-        //Room management options
-        JMenuItem addRoomItem = new JMenuItem("Add Room");
         
-        addRoomItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                JFrame popUp = new JFrame();
-
-                popUp.setTitle("Insert room data");
-
-                JPanel gridPanel = new JPanel();
-                gridPanel.setLayout(new GridLayout(5, 2));
-
-                JPanel flowPanel = new JPanel();
-                flowPanel.setLayout(new FlowLayout());
-
-                JLabel roomIdLabel = new JLabel("Room ID: ");
-                JLabel campusIdLabel = new JLabel("Campus ID: ");
-                JLabel roomNameLabel = new JLabel("Room name: ");
-                JLabel roomCapacityLabel = new JLabel("Room capacity: ");
-                JLabel videoLabel = new JLabel("Video (true/false): ");
-
-                JTextField roomIdTextField = new JTextField();
-                JTextField campusIdTextField = new JTextField();
-                JTextField roomNameTextField = new JTextField();
-                JTextField roomCapacityTextField = new JTextField();
-                JTextField videoTextField = new JTextField();
-
-                gridPanel.add(roomIdLabel);
-                gridPanel.add(roomIdTextField);
-
-                gridPanel.add(campusIdLabel);
-                gridPanel.add(campusIdTextField);
-
-                gridPanel.add(roomNameLabel);
-                gridPanel.add(roomNameTextField);
-
-                gridPanel.add(roomCapacityLabel);
-                gridPanel.add(roomCapacityTextField);
-
-                gridPanel.add(videoLabel);
-                gridPanel.add(videoTextField);
-
-                JButton submitButton = new JButton("Submit");
-
-                submitButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        int roomId = Integer.parseInt(roomIdTextField.getText());
-                        int campusId = Integer.parseInt(campusIdTextField.getText());
-                        String roomName = roomNameTextField.getText();
-                        int roomCapacity = Integer.parseInt(roomCapacityTextField.getText());
-                        boolean video = Boolean.parseBoolean(videoTextField.getText());
-
-                        Room newRoom = new Room();
-                        newRoom.setDb(b.getDb());
-
-                        newRoom.setRoomID(roomId);
-                        newRoom.setCampusID(campusId);
-                        newRoom.setRoomName(roomName);
-                        newRoom.setCapacity(roomCapacity);
-                        newRoom.setVideolink(video);
-                            
-                        newRoom.post(roomId);
-
-                    }
-                });
-
-                JButton closeButton = new JButton("Close");
-
-                closeButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        popUp.dispose();
-
-                    }
-                });
-
-                flowPanel.add(submitButton);
-                flowPanel.add(closeButton);
-
-                popUp.add(gridPanel, BorderLayout.NORTH);
-                popUp.add(flowPanel, BorderLayout.SOUTH);
-
-                popUp.pack();
-                popUp.setLocationRelativeTo(null);
-                popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                popUp.setVisible(true);
-
-            }
-        });
+        if(role.equals("admin")){
         
-        JMenuItem removeRoomItem = new JMenuItem("Remove Room");
+            //Room management
+            JMenu roomMan = new JMenu("Room Management");
+            menu.add(roomMan);
 
-        removeRoomItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            //Room management options
+            JMenuItem addRoomItem = new JMenuItem("Add Room");
 
-                JFrame popUp = new JFrame();
+            addRoomItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-                popUp.setTitle("Insert room ID");
+                    JFrame popUp = new JFrame();
 
-                JPanel gridPanel = new JPanel();
-                gridPanel.setLayout(new GridLayout(1, 2));
+                    popUp.setTitle("Insert room data");
 
-                JPanel flowPanel = new JPanel();
-                flowPanel.setLayout(new FlowLayout());
+                    JPanel gridPanel = new JPanel();
+                    gridPanel.setLayout(new GridLayout(5, 2));
 
-                JLabel roomIDLabel = new JLabel("Room ID: ");
-                JTextField roomIDTextField = new JTextField();
+                    JPanel flowPanel = new JPanel();
+                    flowPanel.setLayout(new FlowLayout());
 
-                gridPanel.add(roomIDLabel);
-                gridPanel.add(roomIDTextField);
+                    JLabel roomIdLabel = new JLabel("Room ID: ");
+                    JLabel campusIdLabel = new JLabel("Campus ID: ");
+                    JLabel roomNameLabel = new JLabel("Room name: ");
+                    JLabel roomCapacityLabel = new JLabel("Room capacity: ");
+                    JLabel videoLabel = new JLabel("Video (true/false): ");
 
-                JButton submitButton = new JButton("Submit");
+                    JTextField roomIdTextField = new JTextField();
+                    JTextField campusIdTextField = new JTextField();
+                    JTextField roomNameTextField = new JTextField();
+                    JTextField roomCapacityTextField = new JTextField();
+                    JTextField videoTextField = new JTextField();
 
-                submitButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
+                    gridPanel.add(roomIdLabel);
+                    gridPanel.add(roomIdTextField);
 
-                        int eventID;
+                    gridPanel.add(campusIdLabel);
+                    gridPanel.add(campusIdTextField);
 
-                        eventID = Integer.parseInt(roomIDTextField.getText());
+                    gridPanel.add(roomNameLabel);
+                    gridPanel.add(roomNameTextField);
 
-                        Event newEvent = new Event();
-                        newEvent.setDb(b.getDb());
-                        newEvent.setEventID(eventID);
+                    gridPanel.add(roomCapacityLabel);
+                    gridPanel.add(roomCapacityTextField);
 
-                        newEvent.delete();
+                    gridPanel.add(videoLabel);
+                    gridPanel.add(videoTextField);
 
-                    }
-                });
+                    JButton submitButton = new JButton("Submit");
 
-                JButton closeButton = new JButton("Close");
+                    submitButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
 
-                closeButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
+                            int roomId = Integer.parseInt(roomIdTextField.getText());
+                            int campusId = Integer.parseInt(campusIdTextField.getText());
+                            String roomName = roomNameTextField.getText();
+                            int roomCapacity = Integer.parseInt(roomCapacityTextField.getText());
+                            boolean video = Boolean.parseBoolean(videoTextField.getText());
 
-                        popUp.dispose();
+                            Room newRoom = new Room();
+                            newRoom.setDb(b.getDb());
 
-                    }
-                });
+                            newRoom.setRoomID(roomId);
+                            newRoom.setCampusID(campusId);
+                            newRoom.setRoomName(roomName);
+                            newRoom.setCapacity(roomCapacity);
+                            newRoom.setVideolink(video);
 
-                flowPanel.add(submitButton);
-                flowPanel.add(closeButton);
+                            newRoom.post(roomId);
 
-                popUp.add(gridPanel, BorderLayout.NORTH);
-                popUp.add(flowPanel, BorderLayout.SOUTH);
+                        }
+                    });
 
-                popUp.pack();
-                popUp.setLocationRelativeTo(null);
-                popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                popUp.setVisible(true);
+                    JButton closeButton = new JButton("Close");
 
-            }
-        });
-        
-        roomMan.add(addRoomItem);
-        roomMan.add(removeRoomItem);
+                    closeButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                            popUp.dispose();
+
+                        }
+                    });
+
+                    flowPanel.add(submitButton);
+                    flowPanel.add(closeButton);
+
+                    popUp.add(gridPanel, BorderLayout.NORTH);
+                    popUp.add(flowPanel, BorderLayout.SOUTH);
+
+                    popUp.pack();
+                    popUp.setLocationRelativeTo(null);
+                    popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    popUp.setVisible(true);
+
+                }
+            });
+
+            JMenuItem removeRoomItem = new JMenuItem("Remove Room");
+
+            removeRoomItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    JFrame popUp = new JFrame();
+
+                    popUp.setTitle("Insert room ID");
+
+                    JPanel gridPanel = new JPanel();
+                    gridPanel.setLayout(new GridLayout(1, 2));
+
+                    JPanel flowPanel = new JPanel();
+                    flowPanel.setLayout(new FlowLayout());
+
+                    JLabel roomIDLabel = new JLabel("Room ID: ");
+                    JTextField roomIDTextField = new JTextField();
+
+                    gridPanel.add(roomIDLabel);
+                    gridPanel.add(roomIDTextField);
+
+                    JButton submitButton = new JButton("Submit");
+
+                    submitButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                            int eventID;
+
+                            eventID = Integer.parseInt(roomIDTextField.getText());
+
+                            Event newEvent = new Event();
+                            newEvent.setDb(b.getDb());
+                            newEvent.setEventID(eventID);
+
+                            newEvent.delete();
+
+                        }
+                    });
+
+                    JButton closeButton = new JButton("Close");
+
+                    closeButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                            popUp.dispose();
+
+                        }
+                    });
+
+                    flowPanel.add(submitButton);
+                    flowPanel.add(closeButton);
+
+                    popUp.add(gridPanel, BorderLayout.NORTH);
+                    popUp.add(flowPanel, BorderLayout.SOUTH);
+
+                    popUp.pack();
+                    popUp.setLocationRelativeTo(null);
+                    popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    popUp.setVisible(true);
+
+                }
+            });
+
+            roomMan.add(addRoomItem);
+            roomMan.add(removeRoomItem);
+        }
 
         //Final set up
         setJMenuBar(menu);
@@ -539,23 +564,56 @@ public class EventPlannerFrame extends JFrame {
     
     public void showLoginForm() {
 
-        JPanel loginPanel = new JPanel(new GridLayout(2, 1));
+        JPanel loginPanel = new JPanel(new GridLayout(6, 2));
         JLabel username = new JLabel("Username: ");
         JLabel password = new JLabel("Password: ");
         JTextField enterUser = new JTextField(15);
         JPasswordField enterPass = new JPasswordField(15);
-
+        
+        JLabel instructions1 = new JLabel("Enter username and password");
+        instructions1.setFont(new Font("Arial", Font.BOLD, 16));
+        JLabel instructions2 = new JLabel("If you do not have a username,");
+        instructions2.setFont(new Font("Arial", Font.ITALIC, 14));
+        JLabel instructions3 = new JLabel("leave the fields empty and click OK");
+        instructions3.setFont(new Font("Arial", Font.ITALIC, 14));
+        
+        loginPanel.add(instructions1);
+        loginPanel.add(new JPanel());
+        
+        loginPanel.add(instructions2);
+        loginPanel.add(new JPanel());
+        
+        loginPanel.add(instructions3);
+        loginPanel.add(new JPanel());
+        
+        loginPanel.add(new JPanel());
+        loginPanel.add(new JPanel());
+        
         loginPanel.add(username);
         loginPanel.add(enterUser);
         loginPanel.add(password);
         loginPanel.add(enterPass);
 
-        int result = JOptionPane.showConfirmDialog(null, loginPanel, "Enter username and password", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, loginPanel, "Login", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
-            //System.out.println("Trying to login " + enterUser.getText() + " " + enterPass.getPassword());
-            String passwordString = new String(enterPass.getPassword());
-            b.authenticate(enterUser.getText(), passwordString);
+            
+            String sendUsername;
+            String passwordString;
+           
+            if(enterUser.getText().equals("") || enterUser.getText() == null){
+                sendUsername = "general";
+                passwordString = "general";
+                
+                b.authenticate(sendUsername, passwordString);
+            } else {
+                sendUsername = enterUser.getText();
+                passwordString = new String(enterPass.getPassword());
+                
+                b.authenticate(sendUsername, passwordString);
+            }
+
+            
         }
 
     }

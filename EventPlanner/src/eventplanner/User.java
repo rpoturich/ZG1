@@ -18,11 +18,9 @@ public class User {
 
     public User() {
         id = 0;
-        firstName = "";
-        lastName = "";
-        password = "";
-        role = "";
         username = "";
+        role = "";
+        
     }
 
     public User(int _id) {
@@ -51,22 +49,6 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -90,6 +72,16 @@ public class User {
     public void setDb(EventDatabase db) {
         this.db = db;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    
 
     public boolean login(String _user, String pass) {
         boolean isLoggedIn = false;
@@ -116,13 +108,14 @@ public class User {
             isLoggedIn = true;
             ArrayList<String> row = results.get(1);
 
-            /*
-            setId(row.get(1)));
-            setFirstName(row.get(2));
-            setLastName(row.get(3));
-            setPassword(row.get(4));
-            setRole(row.get(5));
-             */
+            System.out.println(row);
+            System.out.println(row.get(1));
+            
+            
+            setId(Integer.parseInt(row.get(0)));
+            setUsername(row.get(1));
+            setRole(row.get(3));
+            
         }
 
         return isLoggedIn;

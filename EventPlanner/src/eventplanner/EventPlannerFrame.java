@@ -358,8 +358,165 @@ public class EventPlannerFrame extends JFrame {
 
         //Room management options
         JMenuItem addRoomItem = new JMenuItem("Add Room");
+        
+        addRoomItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JFrame popUp = new JFrame();
+
+                popUp.setTitle("Insert room data");
+
+                JPanel gridPanel = new JPanel();
+                gridPanel.setLayout(new GridLayout(5, 2));
+
+                JPanel flowPanel = new JPanel();
+                flowPanel.setLayout(new FlowLayout());
+
+                JLabel roomIdLabel = new JLabel("Room ID: ");
+                JLabel campusIdLabel = new JLabel("Campus ID: ");
+                JLabel roomNameLabel = new JLabel("Room name: ");
+                JLabel roomCapacityLabel = new JLabel("Room capacity: ");
+                JLabel videoLabel = new JLabel("Video (true/false): ");
+
+                JTextField roomIdTextField = new JTextField();
+                JTextField campusIdTextField = new JTextField();
+                JTextField roomNameTextField = new JTextField();
+                JTextField roomCapacityTextField = new JTextField();
+                JTextField videoTextField = new JTextField();
+
+                gridPanel.add(roomIdLabel);
+                gridPanel.add(roomIdTextField);
+
+                gridPanel.add(campusIdLabel);
+                gridPanel.add(campusIdTextField);
+
+                gridPanel.add(roomNameLabel);
+                gridPanel.add(roomNameTextField);
+
+                gridPanel.add(roomCapacityLabel);
+                gridPanel.add(roomCapacityTextField);
+
+                gridPanel.add(videoLabel);
+                gridPanel.add(videoTextField);
+
+                JButton submitButton = new JButton("Submit");
+
+                submitButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        int roomId = Integer.parseInt(roomIdTextField.getText());
+                        int campusId = Integer.parseInt(campusIdTextField.getText());
+                        String roomName = roomNameTextField.getText();
+                        int roomCapacity = Integer.parseInt(roomCapacityTextField.getText());
+                        boolean video = Boolean.parseBoolean(videoTextField.getText());
+
+                        Room newRoom = new Room();
+                        newRoom.setDb(b.getDb());
+
+                        newRoom.setRoomID(roomId);
+                        newRoom.setCampusID(campusId);
+                        newRoom.setRoomName(roomName);
+                        newRoom.setCapacity(roomCapacity);
+                        newRoom.setVideolink(video);
+                            
+                        newRoom.post(roomId);
+
+                    }
+                });
+
+                JButton closeButton = new JButton("Close");
+
+                closeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        popUp.dispose();
+
+                    }
+                });
+
+                flowPanel.add(submitButton);
+                flowPanel.add(closeButton);
+
+                popUp.add(gridPanel, BorderLayout.NORTH);
+                popUp.add(flowPanel, BorderLayout.SOUTH);
+
+                popUp.pack();
+                popUp.setLocationRelativeTo(null);
+                popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                popUp.setVisible(true);
+
+            }
+        });
+        
         JMenuItem removeRoomItem = new JMenuItem("Remove Room");
 
+        removeRoomItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JFrame popUp = new JFrame();
+
+                popUp.setTitle("Insert room ID");
+
+                JPanel gridPanel = new JPanel();
+                gridPanel.setLayout(new GridLayout(1, 2));
+
+                JPanel flowPanel = new JPanel();
+                flowPanel.setLayout(new FlowLayout());
+
+                JLabel roomIDLabel = new JLabel("Room ID: ");
+                JTextField roomIDTextField = new JTextField();
+
+                gridPanel.add(roomIDLabel);
+                gridPanel.add(roomIDTextField);
+
+                JButton submitButton = new JButton("Submit");
+
+                submitButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        int eventID;
+
+                        eventID = Integer.parseInt(roomIDTextField.getText());
+
+                        Event newEvent = new Event();
+                        newEvent.setDb(b.getDb());
+                        newEvent.setEventID(eventID);
+
+                        newEvent.delete();
+
+                    }
+                });
+
+                JButton closeButton = new JButton("Close");
+
+                closeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        popUp.dispose();
+
+                    }
+                });
+
+                flowPanel.add(submitButton);
+                flowPanel.add(closeButton);
+
+                popUp.add(gridPanel, BorderLayout.NORTH);
+                popUp.add(flowPanel, BorderLayout.SOUTH);
+
+                popUp.pack();
+                popUp.setLocationRelativeTo(null);
+                popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                popUp.setVisible(true);
+
+            }
+        });
+        
         roomMan.add(addRoomItem);
         roomMan.add(removeRoomItem);
 

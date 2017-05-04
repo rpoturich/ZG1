@@ -98,7 +98,7 @@ public class SignUp {
         values.add(eID);
         values.add(attID);
         
-        String insertStatement = "INSERT INTO equipment VALUES ( ? , ? );";
+        String insertStatement = "INSERT INTO signup VALUES ( ? , ? );";
 
         db.setData(insertStatement, values); //call setData using PreparedStatement
     }

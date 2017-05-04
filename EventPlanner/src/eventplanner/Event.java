@@ -226,6 +226,8 @@ public class Event {
         int audience = getAudienceType();
         int vidBoolInt = 0;
         
+        //Data type of video column in database is based on tinyint and boolean values
+        //must be converted to a 0 or 1 before storing in the database
         if(vid){
             vidBoolInt = 1;
         } else {

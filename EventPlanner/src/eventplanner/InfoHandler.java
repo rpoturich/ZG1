@@ -98,36 +98,20 @@ public class InfoHandler {
     public void setUser(User user) {
         this.user = user;
     }
-    
-   
 
-    public ArrayList<String> getLabels() {
-        return labels;
-    }
+    public ArrayList<String> orderByEventName() {
+        ArrayList<String> business = new ArrayList<>();
 
-    public void setLabels(ArrayList<String> newLabels) {
-        labels = newLabels;
-    }
-
-    public ArrayList<InfoHandler> select(EventDatabase db) {
-        ArrayList<InfoHandler> business = new ArrayList<InfoHandler>();
-
-        business = db.getDataWithColumns("SELECT event.event_name, time.time, room.room_name, presenter.presenter_firstname FROM (time INNER JOIN event ON time.time_id= event.time_id_start)"
-                + "INNER JOIN room ON(time.time_id= room.room_id)INNER JOIN presenter ON (presenter.presenter_id = event.event_id ) ");
-        for (int i = 0; i < business.size(); i++) {
-            nameEvent = business.get(i).getNameEvent();
-            date = business.get(i).getDate();
-            room = business.get(i).getRoom();
-            namePresenter = business.get(i).getNamePresenter();
-        }
+        business = db.getDataForEventsByName();
+        
         return business;
     }
 
     public ArrayList<InfoHandler> orderByDate(EventDatabase db) {
         ArrayList<InfoHandler> business = new ArrayList<InfoHandler>();
 
-        business = db.getDataWithColumns("SELECT event.event_name, time.time, room.room_name, presenter.presenter_firstname FROM (time INNER JOIN event ON time.time_id= event.time_id_start)"
-                + "INNER JOIN room ON(time.time_id= room.room_id)INNER JOIN presenter ON (presenter.presenter_id = event.event_id ) ORDER BY time asc ");
+        //business = db.getDataForEventsByName("SELECT event.event_name, time.time, room.room_name, presenter.presenter_firstname FROM (time INNER JOIN event ON time.time_id= event.time_id_start)"
+          //      + "INNER JOIN room ON(time.time_id= room.room_id)INNER JOIN presenter ON (presenter.presenter_id = event.event_id ) ORDER BY time asc ");
         for (int i = 0; i < business.size(); i++) {
             nameEvent = business.get(i).getNameEvent();
             date = business.get(i).getDate();
@@ -140,8 +124,8 @@ public class InfoHandler {
     public ArrayList<InfoHandler> orderByRoom(EventDatabase db) {
         ArrayList<InfoHandler> business = new ArrayList<InfoHandler>();
 
-        business = db.getDataWithColumns("SELECT event.event_name, time.time, room.room_name, presenter.presenter_firstname FROM (time INNER JOIN event ON time.time_id= event.time_id_start)"
-                + "INNER JOIN room ON(time.time_id= room.room_id)INNER JOIN presenter ON (presenter.presenter_id = event.event_id ) ORDER BY room_name asc ");
+        //business = db.getDataForEventsByName("SELECT event.event_name, time.time, room.room_name, presenter.presenter_firstname FROM (time INNER JOIN event ON time.time_id= event.time_id_start)"
+          //      + "INNER JOIN room ON(time.time_id= room.room_id)INNER JOIN presenter ON (presenter.presenter_id = event.event_id ) ORDER BY room_name asc ");
         for (int i = 0; i < business.size(); i++) {
             nameEvent = business.get(i).getNameEvent();
             date = business.get(i).getDate();
@@ -154,8 +138,8 @@ public class InfoHandler {
     public ArrayList<InfoHandler> orderByPresenter(EventDatabase db) {
         ArrayList<InfoHandler> business = new ArrayList<InfoHandler>();
 
-        business = db.getDataWithColumns("SELECT event.event_name, time.time, room.room_name, presenter.presenter_firstname FROM (time INNER JOIN event ON time.time_id= event.time_id_start)"
-                + "INNER JOIN room ON(time.time_id= room.room_id)INNER JOIN presenter ON (presenter.presenter_id = event.event_id ) ORDER BY presenter_firstname asc ");
+        //business = db.getDataForEventsByName("SELECT event.event_name, time.time, room.room_name, presenter.presenter_firstname FROM (time INNER JOIN event ON time.time_id= event.time_id_start)"
+               // + "INNER JOIN room ON(time.time_id= room.room_id)INNER JOIN presenter ON (presenter.presenter_id = event.event_id ) ORDER BY presenter_firstname asc ");
         for (int i = 0; i < business.size(); i++) {
             nameEvent = business.get(i).getNameEvent();
             date = business.get(i).getDate();
@@ -165,10 +149,11 @@ public class InfoHandler {
         return business;
     }
 
-    public static String printEvents(ArrayList<InfoHandler> events) {
+    public static String printEvents(ArrayList<String> events) {
         String result = "";
         //  if (events.size() != 0) {
 
+        /*
         for (int i = 0; i < events.size(); i++) {
             result += events.get(i).getNameEvent();
             result += " " + events.get(i).getDate();
@@ -176,7 +161,7 @@ public class InfoHandler {
             result += " " + events.get(i).getNamePresenter();
             result += "\n";
             //     }
-        }
+        }*/
         return result;
 
     }
@@ -196,4 +181,25 @@ public class InfoHandler {
             JOptionPane.showMessageDialog(null, "Incorrect id or password.");
         }
     }
+    
+    
+     public ArrayList<ArrayList<String>> attendeeList() {
+		Event event = new Event();
+		ArrayList<String> values = new ArrayList<String>();
+		values.add("" + event.getEventID());
+		ArrayList<ArrayList<String>> result;
+
+		result = db.getData(
+				"SELECT attendee.attendee_id, FROM (signup INNER JOIN attendee ON attendee.attendee_id= signup.signup_attendee_id)"
+						+ " WHERE signup.signup_event_id= ?;",
+				values);
+		return result;
+
+	}
+	
+	public void addAttendee(int id, String fname, String lname, int type, int year){
+		Attendee att = new Attendee(id, fname, lname, type, year);
+                att.setDb(db);
+                att.post();
+	}
 }

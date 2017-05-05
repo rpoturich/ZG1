@@ -159,6 +159,7 @@ public class Event {
     public void fetch(ArrayList<String> values) {
         String query = "SELECT * FROM event WHERE event_id= ? ;";
         ArrayList<ArrayList<String>> results;
+        //System.out.println(values);
         results = db.getData(query, values); //call getData using PreparedStatement
         ArrayList<String> row = results.get(1);
 

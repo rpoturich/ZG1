@@ -28,6 +28,8 @@ public class EventDatabase {
 
     private Statement statement;
     private ResultSet result;
+    
+    private ArrayList<Event> events;
 
     /**
      * Constructor
@@ -173,7 +175,7 @@ public class EventDatabase {
     public boolean setData(String sqlStatement, ArrayList<String> values) {
         PreparedStatement ps = prepare(sqlStatement, values);//prepare statement
         boolean isExecuted = false;
-        
+
         System.out.println(sqlStatement); //PRINT CHECK
         try {
             int rowsAffected = ps.executeUpdate();
@@ -224,40 +226,55 @@ public class EventDatabase {
         return ps;
     } //end prepare
 
-    public ArrayList<InfoHandler> getDataWithColumns(String query) {
-        ArrayList<InfoHandler> events = new ArrayList<>();
-
+    
+    
+    public ArrayList<String> getDataForEventsByName() {
+        ArrayList<String> eventInfo = new ArrayList<>();
+        query = "SELECT event.event_id, event.event_name, time.time, room.room_name, CONCAT(presenter.presenter_lastname, \", \" ,presenter.presenter_firstname) AS \"Name\" " +
+                "FROM (time INNER JOIN event ON time.time_id= event.time_id_start) " +
+                "INNER JOIN room ON(time.time_id= room.room_id) " +   
+                "INNER JOIN presenter ON (presenter.presenter_id = event.event_id) ORDER BY event.event_name ASC;";    
+        
         try {
 
             result = statement.executeQuery(query);
-
             boolean row = result.next();
 
             if (row == false) {
                 System.out.println("EMPTY SET: There is no data...");
+                
             } else {
-
                 while (row) {
+                    int id = result.getInt(1);
+                    String nameEvent = result.getString(2);
+                    Time time = result.getTime(3);
+                    String room = result.getString(4);
+                    String presenter = result.getString(5);
+                    
 
-                    String nameEvent = result.getString(1);
-                    Time date = result.getTime(2);
-                    String room = result.getString(3);
-                    String presenter = result.getString(4);
-
-                    InfoHandler bussiness = new InfoHandler(nameEvent, date, room, presenter);
-                    events.add(bussiness);
-
+                    Event newEvent = new Event(id);
+                    newEvent.setDb(this);
+                    
+                    //ArrayList<String> values = new ArrayList<>();
+                    //values.add("" + id);
+                    //newEvent.fetch(values);
+                    
+                    String newEventInfo = nameEvent + "," + time + "," + room + "," + presenter;
+                    
+                    eventInfo.add(newEventInfo);
                     row = result.next();
                 }
             }
 
         } catch (SQLException se) {
-            System.out.println("Could not query the database...");
             se.printStackTrace();
         } catch (Exception e) {
-            System.out.println("Could not query the database...");
             e.printStackTrace();
         }
+        return eventInfo;
+    }
+    
+    public ArrayList<Event> getEvents(){
         return events;
     }
 

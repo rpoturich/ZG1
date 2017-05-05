@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Room {
 
+    private String forceRecompile = "recompile";
     private int roomID;
     private int campusID;
     private String roomName;

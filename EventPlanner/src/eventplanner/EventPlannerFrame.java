@@ -12,17 +12,19 @@ import javax.swing.*;
  */
 public class EventPlannerFrame extends JFrame {
 
-    private ArrayList<InfoHandler> events;
-    private InfoHandler b;
+    private ArrayList<String> events;
+    private InfoHandler handler;
     private String role;
 
-    public EventPlannerFrame(ArrayList<InfoHandler> e, InfoHandler _b) {
+    public EventPlannerFrame(InfoHandler _b) {
 
-        b = _b;
+        handler = _b;
         showLoginForm();
 
-        events = e;
-        role = b.getUser().getRole();
+        events = handler.orderByEventName();
+        role = handler.getUser().getRole();
+
+        System.out.println(events);
 
         System.out.println("Current role: " + role);
 
@@ -30,34 +32,34 @@ public class EventPlannerFrame extends JFrame {
             System.out.println("You are an admin");
         }
 
-        //Basic set up
-        setTitle("Welcome " + b.getUser().getUsername());
+        // Basic set up
+        setTitle("Welcome " + handler.getUser().getUsername());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setSize(800, 500);
         setBackground(new Color(211, 250, 214));
 
-        //North panel
+        // North panel
         JPanel northPanel = new JPanel();
         northPanel.setSize(800, 300);
         northPanel.setBackground(new Color(211, 250, 214));
 
-        //South panel
+        // South panel
         JPanel southPanel = new JPanel();
         southPanel.setSize(800, 300);
         southPanel.setBackground(new Color(211, 250, 214));
 
-        //East panel
+        // East panel
         JPanel eastPanel = new JPanel();
         eastPanel.setSize(200, 500);
         eastPanel.setBackground(new Color(211, 250, 214));
 
-        //West panel
+        // West panel
         JPanel westPanel = new JPanel();
         westPanel.setSize(200, 500);
         westPanel.setBackground(new Color(211, 250, 214));
 
-        //Sort panel - first row in grid layout
+        // Sort panel - first row in grid layout
         JPanel sortPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         sortPanel.setBackground(new Color(211, 250, 214));
         JButton sortButton = new JButton("Sort");
@@ -69,13 +71,13 @@ public class EventPlannerFrame extends JFrame {
 
         dateRadio.setSelected(true);
 
-        //Button group for radio buttons
+        // Button group for radio buttons
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(nameRadio);
         buttonGroup.add(dateRadio);
         buttonGroup.add(presenterRadio);
 
-        //Add elements to sort panel
+        // Add elements to sort panel
         sortPanel.add(nameRadio);
         sortPanel.add(dateRadio);
         sortPanel.add(presenterRadio);
@@ -90,44 +92,27 @@ public class EventPlannerFrame extends JFrame {
         sortButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JRadioButton selected = null;
-                //if(radioButtons.)
-
-                for (JRadioButton jrb : radioButtons) {
-                    if (jrb.isSelected()) {
-                        selected = jrb;
-
-                        System.out.println(selected.getText());
-
-                        if (selected.getText().equalsIgnoreCase("name")) {
-
-                        } else if (selected.getText().equalsIgnoreCase("date")) {
-
-                        } else if (selected.getText().equalsIgnoreCase("presenter")) {
-
-                        }
-                    }
-                }
-
+                selectSortButton(radioButtons);
             }
 
-        }); //end sort button actionlistener
+        }); // end sort button actionlistener
 
-        //Center panel of grid layout
+        // Center panel of grid layout
         JPanel centerPanel = new JPanel(new GridLayout(0, 1, 0, 5));
         centerPanel.setBackground(new Color(211, 250, 214));
         centerPanel.add(sortPanel);
 
-        //Set icons for buttons
+        // Set icons for buttons
         ImageIcon searchIcon = new ImageIcon("img/search.jpg");
         ImageIcon addIcon = new ImageIcon("img/add.png");
         ImageIcon listIcon = new ImageIcon("img/list.png");
 
-        String allEvents = InfoHandler.printEvents(events);
-        String[] eventStrings = allEvents.split("\n");
+        // Get event strings from InfoHandler
+        // String allEvents = InfoHandler.printEvents(events);
+        for (String eString : events) {
+            System.out.println("Adding panel for: " + eString);
+            String[] eventStrings = eString.split(",");
 
-        //loop and add info
-        for (String s : eventStrings) {
             JPanel row = new JPanel(new GridLayout(1, 8));
 
             JButton searchButton = new JButton(searchIcon);
@@ -143,19 +128,110 @@ public class EventPlannerFrame extends JFrame {
                 JButton addButton = new JButton(addIcon);
                 addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 JPanel addButtonPanel = new JPanel();
+
                 addButtonPanel.setBackground(Color.WHITE);
                 addButtonPanel.add(addButton);
+                addButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame attFrame = new JFrame();
+
+                        attFrame.setTitle("Insert attendee data.");
+
+                        JPanel gridPanel = new JPanel();
+                        gridPanel.setLayout(new GridLayout(3, 1));
+
+                        JPanel flowPanel = new JPanel();
+                        flowPanel.setLayout(new FlowLayout());
+
+                        JLabel attendeeIDLabel = new JLabel("Attendee ID: ");
+                        JLabel attendeeNameLabel = new JLabel("Attendee First Name: ");
+                        JLabel attendeeLastLabel = new JLabel("Attendee Last Name: ");
+                        JLabel attendeeTypeLabel = new JLabel("Attendee Type: ");
+                        JLabel attendeeYearLabel = new JLabel("Attendee Year: ");
+
+                        JTextField attendeeIDTextField = new JTextField();
+                        JTextField attendeeNameTextField = new JTextField();
+                        JTextField attendeeLastTextField = new JTextField();
+                        JTextField attendeeTypeTextField = new JTextField();
+                        JTextField attendeeYearTextField = new JTextField();
+
+                        gridPanel.add(attendeeIDLabel);
+                        gridPanel.add(attendeeIDTextField);
+
+                        gridPanel.add(attendeeNameLabel);
+                        gridPanel.add(attendeeNameTextField);
+
+                        gridPanel.add(attendeeLastLabel);
+                        gridPanel.add(attendeeLastTextField);
+
+                        gridPanel.add(attendeeTypeLabel);
+                        gridPanel.add(attendeeTypeTextField);
+
+                        gridPanel.add(attendeeYearLabel);
+                        gridPanel.add(attendeeYearTextField);
+
+                        JButton submit = new JButton("Submit");
+                        JButton close = new JButton("Close");
+                        submit.addActionListener(new ActionListener() {
+
+                            @Override
+                            public void actionPerformed(ActionEvent ae) {
+                                int attID = Integer.parseInt(attendeeIDTextField.getText());
+                                String attName = attendeeNameTextField.getText();
+                                String attLast = attendeeLastTextField.getText();
+                                int attType = Integer.parseInt(attendeeTypeTextField.getText());
+                                int attYear = Integer.parseInt(attendeeYearTextField.getText());
+                                handler.addAttendee(attID, attName, attLast, attType, attYear);
+                            }
+                        });
+
+                        close.addActionListener(new ActionListener() {
+
+                            @Override
+                            public void actionPerformed(ActionEvent ae) {
+                                attFrame.dispose();
+
+                            }
+
+                        });
+
+                        gridPanel.add(submit);
+                        gridPanel.add(close);
+                        attFrame.add(gridPanel);
+                        attFrame.pack();
+                        attFrame.setVisible(true);
+                        attFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                        attFrame.setLocationRelativeTo(null);
+
+                    }
+                });
+
                 row.add(addButtonPanel);
             }
 
-            String[] eventStringPieces = s.split("\\s+");
-            for (String st : eventStringPieces) {
+            for (String st : eventStrings) {
                 System.out.println(st);
                 row.add(new JLabel(st));
             }
 
             if (role.equals("admin") || role.equals("editor")) {
                 JButton listAttsButton = new JButton(listIcon);
+                listAttsButton.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame listatt = new JFrame();
+                        JPanel listspace = new JPanel();
+                        JTextArea jta = new JTextArea("" + handler.attendeeList());
+                        listspace.add(jta);
+                        listatt.add(listspace);
+                        listatt.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                        listatt.setVisible(true);
+
+                    }
+
+                });
+
                 JPanel listAttsButtonPanel = new JPanel();
                 listAttsButtonPanel.setBackground(Color.WHITE);
                 listAttsButtonPanel.add(listAttsButton);
@@ -164,16 +240,17 @@ public class EventPlannerFrame extends JFrame {
 
             row.setBackground(Color.WHITE);
             centerPanel.add(row);
+
         }
 
-        //Create menu bar
+        // Create menu bar
         JMenuBar menu = new JMenuBar();
 
-        //File 
+        // File
         JMenu eventMenu = new JMenu("File");
         menu.add(eventMenu);
 
-        //File options
+        // File options
         JMenuItem eventItem = new JMenuItem("See Events");
         JMenuItem presenterItem = new JMenuItem("See Presenters");
         JMenuItem roomItem = new JMenuItem("See Rooms");
@@ -183,11 +260,11 @@ public class EventPlannerFrame extends JFrame {
         eventMenu.add(roomItem);
 
         if (role.equals("admin") || role.equals("editor")) {
-            //Event management
+            // Event management
             JMenu eventMan = new JMenu("Event Management");
             menu.add(eventMan);
 
-            //Event management options
+            // Event management options
             JMenuItem addEventItem = new JMenuItem("Add Event");
 
             addEventItem.addActionListener(new ActionListener() {
@@ -216,11 +293,11 @@ public class EventPlannerFrame extends JFrame {
 
         if (role.equals("admin")) {
 
-            //Room management
+            // Room management
             JMenu roomMan = new JMenu("Room Management");
             menu.add(roomMan);
 
-            //Room management options
+            // Room management options
             JMenuItem addRoomItem = new JMenuItem("Add Room");
 
             addRoomItem.addActionListener(new ActionListener() {
@@ -243,22 +320,22 @@ public class EventPlannerFrame extends JFrame {
             roomMan.add(removeRoomItem);
         }
 
-        //Final set up
+        // Final set up
         setJMenuBar(menu);
         add(northPanel, BorderLayout.NORTH);
         add(southPanel, BorderLayout.SOUTH);
         add(eastPanel, BorderLayout.EAST);
         add(westPanel, BorderLayout.WEST);
 
-        //Add scroll pane
+        // Add scroll pane
         JScrollPane scroller = new JScrollPane(centerPanel);
 
         add(scroller, BorderLayout.CENTER);
 
-        //Set visibility
+        // Set visibility
         setVisible(true);
 
-    } //end constructor
+    } // end constructor
 
     public void showLoginForm() {
 
@@ -303,15 +380,16 @@ public class EventPlannerFrame extends JFrame {
                 sendUsername = "general";
                 passwordString = "general";
 
-                b.authenticate(sendUsername, passwordString);
+                handler.authenticate(sendUsername, passwordString);
             } else {
                 sendUsername = enterUser.getText();
                 passwordString = new String(enterPass.getPassword());
 
-                b.authenticate(sendUsername, passwordString);
+                handler.authenticate(sendUsername, passwordString);
             }
         } else {
-            int logOrClose = JOptionPane.showConfirmDialog(null, "You must either login or close the program", "Login Warning", JOptionPane.OK_CANCEL_OPTION);
+            int logOrClose = JOptionPane.showConfirmDialog(null, "You must either login or close the program",
+                    "Login Warning", JOptionPane.OK_CANCEL_OPTION);
 
             if (logOrClose == JOptionPane.OK_OPTION) {
                 showLoginForm();
@@ -367,24 +445,28 @@ public class EventPlannerFrame extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (roomCapacityTextField.getText().equals("") || campusIdTextField.getText().equals("")
+                        || roomCapacityTextField.getText().equals("") || roomNameTextField.getText().equals("")
+                        || roomIdTextField.getText().equals("") || videoTextField.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Please insert all the information");
+                } else {
+                    int roomId = Integer.parseInt(roomIdTextField.getText());
+                    int campusId = Integer.parseInt(campusIdTextField.getText());
+                    String roomName = roomNameTextField.getText();
+                    int roomCapacity = Integer.parseInt(roomCapacityTextField.getText());
+                    boolean video = Boolean.parseBoolean(videoTextField.getText());
 
-                int roomId = Integer.parseInt(roomIdTextField.getText());
-                int campusId = Integer.parseInt(campusIdTextField.getText());
-                String roomName = roomNameTextField.getText();
-                int roomCapacity = Integer.parseInt(roomCapacityTextField.getText());
-                boolean video = Boolean.parseBoolean(videoTextField.getText());
+                    Room newRoom = new Room();
+                    newRoom.setDb(handler.getDb());
 
-                Room newRoom = new Room();
-                newRoom.setDb(b.getDb());
+                    newRoom.setRoomID(roomId);
+                    newRoom.setCampusID(campusId);
+                    newRoom.setRoomName(roomName);
+                    newRoom.setCapacity(roomCapacity);
+                    newRoom.setVideolink(video);
 
-                newRoom.setRoomID(roomId);
-                newRoom.setCampusID(campusId);
-                newRoom.setRoomName(roomName);
-                newRoom.setCapacity(roomCapacity);
-                newRoom.setVideolink(video);
-
-                newRoom.post(roomId);
-
+                    newRoom.post(roomId);
+                }
             }
         });
 
@@ -439,7 +521,7 @@ public class EventPlannerFrame extends JFrame {
                 roomID = Integer.parseInt(roomIDTextField.getText());
 
                 Room newRoom = new Room();
-                newRoom.setDb(b.getDb());
+                newRoom.setDb(handler.getDb());
                 newRoom.setRoomID(roomID);
 
                 newRoom.delete();
@@ -533,32 +615,39 @@ public class EventPlannerFrame extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (eventDescriptionTextField.getText().equals("") || eventNameTextField.getText().equals("")
+                        || startTimeIDTextField.getText().equals("") || endTimeIDTextField.getText().equals("")
+                        || roomIDTextField.getText().equals("") || dayIDTextField.getText().equals("")
+                        || videoTextField.getText().equals("") || eventDescriptionTextField.getText().equals("")
+                        || audienceTypeTextField.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Please insert all the information");
+                } else {
 
-                int eventID = Integer.parseInt(eventIDTextField.getText());
-                String eventName = eventNameTextField.getText();
-                int startTimeID = Integer.parseInt(startTimeIDTextField.getText());
-                int endTimeID = Integer.parseInt(endTimeIDTextField.getText());
-                int roomID = Integer.parseInt(roomIDTextField.getText());
-                int dayID = Integer.parseInt(roomIDTextField.getText());
-                boolean video = Boolean.parseBoolean(videoTextField.getText());
-                String eventDescription = eventDescriptionTextField.getText();
-                int audienceType = Integer.parseInt(audienceTypeTextField.getText());
+                    int eventID = Integer.parseInt(eventIDTextField.getText());
+                    String eventName = eventNameTextField.getText();
+                    int startTimeID = Integer.parseInt(startTimeIDTextField.getText());
+                    int endTimeID = Integer.parseInt(endTimeIDTextField.getText());
+                    int roomID = Integer.parseInt(roomIDTextField.getText());
+                    int dayID = Integer.parseInt(dayIDTextField.getText());
+                    boolean video = Boolean.parseBoolean(videoTextField.getText());
+                    String eventDescription = eventDescriptionTextField.getText();
+                    int audienceType = Integer.parseInt(audienceTypeTextField.getText());
 
-                Event newEvent = new Event();
-                newEvent.setDb(b.getDb());
+                    Event newEvent = new Event();
+                    newEvent.setDb(handler.getDb());
 
-                newEvent.setEventID(eventID);
-                newEvent.setEventName(eventName);
-                newEvent.setStartTimeID(startTimeID);
-                newEvent.setEndTimeID(endTimeID);
-                newEvent.setRoomID(roomID);
-                newEvent.setDayID(dayID);
-                newEvent.setVideo(video);
-                newEvent.setDescription(eventDescription);
-                newEvent.setAudienceType(audienceType);
+                    newEvent.setEventID(eventID);
+                    newEvent.setEventName(eventName);
+                    newEvent.setStartTimeID(startTimeID);
+                    newEvent.setEndTimeID(endTimeID);
+                    newEvent.setRoomID(roomID);
+                    newEvent.setDayID(dayID);
+                    newEvent.setVideo(video);
+                    newEvent.setDescription(eventDescription);
+                    newEvent.setAudienceType(audienceType);
 
-                newEvent.post(eventID);
-
+                    newEvent.post(eventID);
+                }
             }
         });
 
@@ -613,7 +702,7 @@ public class EventPlannerFrame extends JFrame {
                 eventID = Integer.parseInt(eventIDTextField.getText());
 
                 Event newEvent = new Event();
-                newEvent.setDb(b.getDb());
+                newEvent.setDb(handler.getDb());
                 newEvent.setEventID(eventID);
 
                 newEvent.delete();
@@ -644,4 +733,24 @@ public class EventPlannerFrame extends JFrame {
         popUp.setVisible(true);
     }
 
-} //end class
+    public void selectSortButton(ArrayList<JRadioButton> buttons) {
+        JRadioButton selected = null;
+
+        for (JRadioButton jrb : buttons) {
+            if (jrb.isSelected()) {
+                selected = jrb;
+
+                System.out.println(selected.getText());
+
+                if (selected.getText().equalsIgnoreCase("name")) {
+
+                } else if (selected.getText().equalsIgnoreCase("date")) {
+
+                } else if (selected.getText().equalsIgnoreCase("presenter")) {
+
+                }
+            }
+        }
+    }
+
+} // end class

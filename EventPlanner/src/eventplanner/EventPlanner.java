@@ -20,15 +20,11 @@ public class EventPlanner {
         EventDatabase db = new EventDatabase("jdbc:mysql://localhost:3306/events", "root", "G78x6y!#3m(]");
         db.connect();
 
-        InfoHandler student = new InfoHandler(db);
+        InfoHandler handler = new InfoHandler(db);
+        ArrayList<String> events;
+        //events = handler.orderByEventName();
 
-        ArrayList<InfoHandler> events;
-
-        events = student.select(db);
-
-        //System.out.println(events.size() + " events");
-        //System.out.println(student.printEvents(events));
-        new EventPlannerFrame(events, student);
+        new EventPlannerFrame(handler);
 
     }
 

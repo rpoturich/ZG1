@@ -159,4 +159,9 @@ public class Image implements ImgComponent {
         return resized;
     }
 
+    @Override
+    public ImgComponent clone() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 } //end class

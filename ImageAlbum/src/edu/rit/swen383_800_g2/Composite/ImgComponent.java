@@ -16,6 +16,7 @@ public interface ImgComponent{
     
     //List of classes to be implemented
     public void list();
+    public ImgComponent  clone();
     public void addLabel(String label);
     public String getLabel(int index);
     public void setName(String name);

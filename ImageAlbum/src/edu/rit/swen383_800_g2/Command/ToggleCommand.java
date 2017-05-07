@@ -55,8 +55,5 @@ public class ToggleCommand implements Command {
 
     }
 
-    @Override
-    public BufferedImage[] getImg() {
-        return null;
-    }
+  
 }

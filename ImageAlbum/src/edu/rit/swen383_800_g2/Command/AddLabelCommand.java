@@ -7,6 +7,7 @@ package edu.rit.swen383_800_g2.Command;
 
 import edu.rit.swen383_800_g2.Composite.ImgComponent;
 import java.awt.image.BufferedImage;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 /**
@@ -17,20 +18,26 @@ public class AddLabelCommand implements Command {
 
     private ImgComponent ic;
     private JTextField labelBox;
+    private JComboBox labelCombo;
+    private String label;
     
     public AddLabelCommand(ImgComponent i, JTextField field){
         ic = i;
         labelBox = field;
+        label = labelBox.getText();
+    }
+    
+    public AddLabelCommand(ImgComponent i, JComboBox box, JTextField field){
+        ic = i;
+        labelCombo = box;
+        labelBox = field;
+        label = (String) labelCombo.getSelectedItem();
     }
     
     public void execute() {
-        String text = labelBox.getText();
-        ic.addLabel(text);
+        ic.addLabel(label);
         labelBox.setText("");
     }
 
-    @Override
-    public BufferedImage[] getImg() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 }

@@ -7,8 +7,12 @@
 
 package edu.rit.swen383_800_g2.Command;
 
+import edu.rit.swen383_800_g2.Composite.ImgComponent;
+import edu.rit.swen838_800_g2.View.EditMode;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import javax.swing.JFrame;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
  *
@@ -16,14 +20,19 @@ import java.util.ArrayList;
  */
 public class ShowEditCommand implements Command{
 
+    private ImgComponent ic;
+    
+    public ShowEditCommand(ImgComponent i){
+        ic = i;
+    }
+    
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JFrame editFrame = new EditMode(ic);
+        editFrame.setVisible(true);
+        editFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    @Override
-    public BufferedImage[] getImg() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
     
 }

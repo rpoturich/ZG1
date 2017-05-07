@@ -114,9 +114,6 @@ public class AddAlbumCommand implements Command {
 
     }
 
-    @Override
-    public BufferedImage[] getImg() {
-        return null;
-    }
+   
 
 }

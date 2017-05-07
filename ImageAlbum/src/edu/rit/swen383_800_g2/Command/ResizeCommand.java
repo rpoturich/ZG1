@@ -36,12 +36,7 @@ public class ResizeCommand implements Command {
         
     }
 
-    @Override
-    public BufferedImage[] getImg() {
-        
-        return null;
-    
-    }
+   
 
     
 }

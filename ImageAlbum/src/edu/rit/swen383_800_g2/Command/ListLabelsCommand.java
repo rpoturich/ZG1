@@ -27,14 +27,13 @@ public class ListLabelsCommand implements Command{
         String msg = "";
         
         for(String s : ic.getLabels()){
-            msg += s + "\n";
+            msg += s + ", ";
         }
-        JOptionPane.showMessageDialog(null, "Labels:\n" + msg);
+        //JOptionPane.showMessageDialog(null, "Labels:\n" + msg);
+        
+        ic.setName(msg);
     }
 
-    @Override
-    public BufferedImage[] getImg() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
     
 }

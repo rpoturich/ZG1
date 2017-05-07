@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -46,7 +47,7 @@ public class InspectCommand implements Command {
             JFrame imageFrame = new JFrame();
             imageFrame.setTitle("Image Frame");
             imageFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            imageFrame.setSize(700, 700);
+            imageFrame.setSize(950, 700);
             JPanel imPan = new JPanel();
             imPan.add(picLabel);
             imageFrame.add(imPan, BorderLayout.CENTER);
@@ -60,21 +61,43 @@ public class InspectCommand implements Command {
             nameBut.add(nameBox);
 
             JButton addLabelButton = new JButton("Add label");
+            String[] predefinedLabels = {"Selet a label", "people", "favorite", "custom..."};
+            JComboBox labelCombo = new JComboBox(predefinedLabels);
             JTextField labelBox = new JTextField(15);
+            labelBox.setEditable(false);
             JPanel labelBut = new JPanel();
             labelBut.add(addLabelButton);
+            labelBut.add(labelCombo);
             labelBut.add(labelBox);
+            
+            labelCombo.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent ae){
+                    if(labelCombo.getSelectedItem() == "custom..."){
+                        labelBox.setEditable(true);
+                        labelBox.setText("Enter a label");
+                    } else {
+                        labelBox.setEditable(false);
+                        labelBox.setText("");
+                    }
+                }
+            });
 
             addLabelButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    Command c = new AddLabelCommand(ic, labelBox);
+                    Command c;
+                    if(labelCombo.getSelectedItem() == "custom..."){
+                        c = new AddLabelCommand(ic, labelBox);
+                    } else {
+                        c = new AddLabelCommand(ic, labelCombo, labelBox);
+                    }
                     c.execute();
                 }
 
             });
 
-            JButton listLabel = new JButton("List labels");
+            JButton listLabel = new JButton("Set labels as name");
             JPanel litButt = new JPanel();
             litButt.add(listLabel);
 
@@ -110,9 +133,8 @@ public class InspectCommand implements Command {
                 editButton.addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent ae){
-                        JFrame editFrame = new EditMode(ic);
-                        editFrame.setVisible(true);
-                        editFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                        Command c = new ShowEditCommand(ic);
+                        c.execute();
                     }
                 });
                 
@@ -132,9 +154,5 @@ public class InspectCommand implements Command {
         }
     }
 
-    @Override
-    public BufferedImage[] getImg() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

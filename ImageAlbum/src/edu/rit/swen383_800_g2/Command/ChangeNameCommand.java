@@ -31,9 +31,5 @@ public class ChangeNameCommand implements Command{
         nameField.setText("");
     }
 
-    @Override
-    public BufferedImage[] getImg() {
-        return null;
-    }
     
 } //end class

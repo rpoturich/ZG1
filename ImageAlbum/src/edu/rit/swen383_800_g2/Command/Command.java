@@ -15,6 +15,6 @@ public interface Command {
     
     public void execute();
     
-    public BufferedImage[] getImg();
+    
     
 } //end interface

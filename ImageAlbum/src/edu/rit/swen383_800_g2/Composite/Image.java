@@ -21,8 +21,8 @@ import javax.swing.JPanel;
 
 public class Image implements ImgComponent {
 
-    private ArrayList<String> labels = new ArrayList();
-    private File f;
+    private ArrayList<String> labels = new ArrayList(); //use this to get labels
+    private File f; //use this to get path
     private JLabel iconLabel;
     private ImageIcon smallIcon;
     private ImageIcon largeIcon;
@@ -105,6 +105,14 @@ public class Image implements ImgComponent {
         return labels;
     }
 
+    
+    public File getFile(){
+        return f;
+    }
+    
+    public String getTime(){
+        return timeLabel.getText();
+    }
     
     public void setName(String _name) {
         name = _name;

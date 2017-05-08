@@ -23,8 +23,6 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
 public class ImageAlbumTest {
     
     
-    
-
     File f = new File("images");
     ArrayList<String> imagePath = new ArrayList<String>();
 
@@ -114,13 +112,13 @@ public class ImageAlbumTest {
                 int drawLocationX = 0;
                 int drawLocationY = 0;
 
-// Rotation information
+                // Rotation information
                 AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(90), image.getWidth() / 2, image.getHeight() / 2);
                 AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 
                 Graphics2D g2d = image.createGraphics();
 
-// Drawing the rotated image at the required drawing locations
+                // Drawing the rotated image at the required drawing locations
                 g2d.drawImage(op.filter(image, null), drawLocationX, drawLocationY, null);
 
                 centerPanel.repaint();
@@ -139,13 +137,13 @@ public class ImageAlbumTest {
                 int drawLocationX = 0;
                 int drawLocationY = 0;
 
-// Rotation information
+                // Rotation information
                 AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(-90), image.getWidth() / 2, image.getHeight() / 2);
                 AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 
                 Graphics2D g2d = image.createGraphics();
 
-// Drawing the rotated image at the required drawing locations
+                // Drawing the rotated image at the required drawing locations
                 g2d.drawImage(op.filter(image, null), drawLocationX, drawLocationY, null);
 
                 centerPanel.repaint();

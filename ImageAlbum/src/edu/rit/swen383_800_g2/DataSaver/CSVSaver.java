@@ -6,6 +6,8 @@
 package edu.rit.swen383_800_g2.DataSaver;
 
 import edu.rit.swen383_800_g2.Composite.ImgComponent;
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -25,7 +27,40 @@ public class CSVSaver implements DataSaver {
     @Override
     public void save() {
 
+        PrintWriter pw = null;
         
+        for(ImgComponent c : componentList) {
+            
+            try{
+                pw = new PrintWriter(new File("imageData.csv"));
+            } catch (Exception e) {
+                
+            }
+                
+            if(c instanceof edu.rit.swen383_800_g2.Composite.Image){
+            
+                String info = "";
+                
+                info += c.getName();
+                info += ",";
+                info += c.getFile().getPath();
+                info += ",";
+                info += c.getTime();
+                info += ",";
+                
+                ArrayList<String> labels = c.getLabels();
+                
+                for(String l: labels){
+                    info += l + ",";
+                }
+                
+                info += "\n";
+                
+                pw.write(info);
+            }
+        }
+        
+        pw.close();
         
     }
     

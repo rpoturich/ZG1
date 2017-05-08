@@ -28,7 +28,8 @@ import javax.swing.JTextField;
 public class ViewMode extends JFrame {
 
     protected JPanel centerPanel;
-    protected ArrayList<ImgComponent> components;
+    protected ArrayList<ImgComponent> components; //Use this; loop through all and check if 
+                                                  //instance of Component.Image
     protected JButton view;
     protected JTextField searchField;
     protected JButton enterSearch;

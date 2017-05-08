@@ -44,6 +44,8 @@ public class Image implements ImgComponent {
         try {
             image = ImageIO.read(f);
 
+            System.out.println(image.toString());
+            
             smallIcon = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
             largeIcon = new ImageIcon(image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH));
 

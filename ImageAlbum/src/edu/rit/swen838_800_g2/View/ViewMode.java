@@ -1,12 +1,9 @@
 package edu.rit.swen838_800_g2.View;
 
 /**
- * Class to represent the window available to the user
- * ViewMode extends JFrame
- * 
+ * Class to represent the window available to the user ViewMode extends JFrame
+ *
  */
-
-
 import edu.rit.swen383_800_g2.Command.Command;
 import edu.rit.swen383_800_g2.Command.*;
 import edu.rit.swen383_800_g2.Composite.*;
@@ -21,12 +18,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-
 
 public class ViewMode extends JFrame {
 
@@ -39,10 +36,8 @@ public class ViewMode extends JFrame {
     protected Map<String, Command> commands;
     protected ArrayList<String> imagePath;
 
-    
     /**
-     * Constructor
-     * Instantiates a JFrame
+     * Constructor Instantiates a JFrame
      */
     public ViewMode() {
         components = new ArrayList();
@@ -71,15 +66,26 @@ public class ViewMode extends JFrame {
 
     }//end constructor
 
-    
     /**
      * Loads list of images, adds components to JFrame, and assigns listeners
      */
     public void loadImages() {
+
+        //JFileChooser chooser = new JFileChooser();
+        //chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        //String fileName = "";
         
+        
+        //int returnVal = chooser.showOpenDialog(null);
+        //if (returnVal == JFileChooser.APPROVE_OPTION) {
+            //System.out.println("You chose to open this file: "
+                    //+ chooser.getCurrentDirectory());
+            //fileName = chooser.getSelectedFile().getPath();
+        //}
+
         //read images
         File f = new File("images");
-        imagePath = new ArrayList<String>();
+        imagePath = new ArrayList<>();
 
         ArrayList<File> files = new ArrayList(Arrays.asList(f.listFiles()));
 
@@ -109,19 +115,17 @@ public class ViewMode extends JFrame {
             }//for loop
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
 
         centerPanel.setLayout(new GridLayout(0, 1));
 
-        
         //add icons to the view
         for (ImgComponent i : components) {
             centerPanel.add(i.getLargeIcon());
         }
 
-        
         //toggle view
         view.addActionListener(new ActionListener() {
             @Override
@@ -132,7 +136,6 @@ public class ViewMode extends JFrame {
 
         });
 
-        
         //search
         enterSearch.addActionListener(new ActionListener() {
             @Override
@@ -142,7 +145,6 @@ public class ViewMode extends JFrame {
             }
         });
 
-        
         //add an album
         addAlbum.addActionListener(new ActionListener() {
             @Override
@@ -152,7 +154,6 @@ public class ViewMode extends JFrame {
             }
         });
 
-        
         //add all elements to scrollpane and add to jframe
         JScrollPane scroller = new JScrollPane(centerPanel);
         add(scroller, BorderLayout.CENTER);
@@ -162,12 +163,11 @@ public class ViewMode extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-        
+
     } //end loadImages
 
-    
-    /* GETTERS */ 
-    
+
+    /* GETTERS */
     public JButton getView() {
         return view;
     }
@@ -184,14 +184,12 @@ public class ViewMode extends JFrame {
         return centerPanel;
     }
 
-    
     public ArrayList<ImgComponent> getComponentsArray() {
         return components;
     }
-    
-    
+
+
     /* SETTERS */
-    
     public void setCenterPanel(JPanel centerPanel) {
         this.centerPanel = centerPanel;
     }
@@ -199,11 +197,11 @@ public class ViewMode extends JFrame {
     public void setComponents(ArrayList<ImgComponent> components) {
         this.components = components;
     }
-    
+
     public void setEnterSearch(JButton enterSearch) {
         this.enterSearch = enterSearch;
     }
-    
+
     public void setSearchField(JTextField searchField) {
         this.searchField = searchField;
     }

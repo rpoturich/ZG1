@@ -1,8 +1,10 @@
-import eventplanner.EventDatabase;
+package eventplanner;
+
 import java.util.ArrayList;
 
 public class Attendee {
 
+    private String test = "test";
     private int attendee_ID;
     private String attendee_firstname;
     private String attendee_lastname;
@@ -73,6 +75,14 @@ public class Attendee {
 
     public void setAttendee_Student_Year(int attendee_student_year) {
         this.attendee_student_year = attendee_student_year;
+    }
+
+    public EventDatabase getDb() {
+        return db;
+    }
+
+    public void setDb(EventDatabase db) {
+        this.db = db;
     }
 
     

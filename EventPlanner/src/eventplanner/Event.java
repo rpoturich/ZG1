@@ -159,6 +159,7 @@ public class Event {
     public void fetch(ArrayList<String> values) {
         String query = "SELECT * FROM event WHERE event_id= ? ;";
         ArrayList<ArrayList<String>> results;
+        //System.out.println(values);
         results = db.getData(query, values); //call getData using PreparedStatement
         ArrayList<String> row = results.get(1);
 
@@ -224,6 +225,15 @@ public class Event {
         boolean vid = isVideo();
         String description = getEventDescription();
         int audience = getAudienceType();
+        int vidBoolInt = 0;
+        
+        //Data type of video column in database is based on tinyint and boolean values
+        //must be converted to a 0 or 1 before storing in the database
+        if(vid){
+            vidBoolInt = 1;
+        } else {
+            vidBoolInt = 0;
+        }
         
         //set List of values for PreparedStatement
         ArrayList<String> values = new ArrayList<String>();
@@ -233,11 +243,11 @@ public class Event {
         values.add("" + end);
         values.add("" + room);
         values.add("" + day);
-        values.add("" + vid);
+        values.add("" + vidBoolInt);
         values.add(description);
         values.add("" + audience);
         
-        String insertStatement = "INSERT INTO equipment VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ?);";
+        String insertStatement = "INSERT INTO event VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ?);";
 
         db.setData(insertStatement, values); //call setData using PreparedStatement
     }

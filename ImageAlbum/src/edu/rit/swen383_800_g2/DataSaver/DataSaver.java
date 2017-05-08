@@ -5,11 +5,14 @@
  */
 package edu.rit.swen383_800_g2.DataSaver;
 
+
+
 /**
  *
  * @author rachelpoturich
  */
 public interface DataSaver {
     
+    public void save();
     
 }

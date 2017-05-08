@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FileLoader;
+package edu.rit.swen838_800_g2.FileLoader;
 
 /**
  *

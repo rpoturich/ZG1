@@ -21,6 +21,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -56,7 +59,15 @@ public class ViewMode extends JFrame {
         enterSearch = new JButton("Search");
         JPanel searchPanel = new JPanel();
         searchPanel.add(enterSearch);
+        
+        JMenuBar menuBar = new JMenuBar();
+        JMenu file = new JMenu("File");
+        JMenuItem save = new JMenuItem("Save all Images");
 
+        file.add(save);
+        menuBar.add(file);
+        
+        setJMenuBar(menuBar);
         add(albumPanel, BorderLayout.NORTH);
         add(vPanel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);

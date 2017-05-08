@@ -10,5 +10,10 @@ package edu.rit.swen383_800_g2.DataSaver;
  * @author rachelpoturich
  */
 public class JSONSaver implements DataSaver {
+
+    @Override
+    public void save() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
